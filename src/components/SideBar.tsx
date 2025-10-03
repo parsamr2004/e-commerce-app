@@ -1,5 +1,5 @@
 const SideBar = () => {
-  return <div>ساید بار</div>;
+  return <div className="w-[80px] bg-primary h-min-screen">ساید بار</div>;
 };
 
 export default SideBar;

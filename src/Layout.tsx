@@ -3,9 +3,9 @@ import SideBar from "./components/SideBar";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div>
+    <div className="flex">
       <SideBar />
-      <div>{children}</div>
+      <div className="mx-auto p-5 container flex min-h-screen items-center">{children}</div>
     </div>
   );
 };
