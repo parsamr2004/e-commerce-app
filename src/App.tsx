@@ -1,4 +1,4 @@
-import { Badge } from "./components/ui/badge";
+// import { Badge } from "./components/ui/badge";
 import Layout from "./Layout";
 
 const App = () => {
@@ -6,7 +6,6 @@ const App = () => {
     <Layout>
       <div>
         <h1>صفحه اصلی</h1>
-        <Badge>دکمه</Badge>
       </div>
     </Layout>
   );
