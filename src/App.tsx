@@ -1,14 +1,15 @@
-// import { Badge } from "./components/ui/badge";
-import Layout from "./Layout";
+// import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSideBar } from "./components/SideBar";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 
-const App = () => {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <Layout>
-      <div>
-        <h1>صفحه اصلی</h1>
-      </div>
-    </Layout>
+    <SidebarProvider>
+      <AppSideBar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
   );
-};
-
-export default App;
+}
