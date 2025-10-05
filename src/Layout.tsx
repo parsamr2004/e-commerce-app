@@ -1,11 +1,23 @@
 import type { ReactNode } from "react";
-import SideBar from "./components/SideBar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "./components/ui/sidebar";
+import { useIsMobile } from "./hooks/use-mobile";
+import { AppSidebar } from "./components/app-sidebar";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  const isMobile = useIsMobile();
   return (
     <div className="flex">
-      <SideBar />
-      <div className="p-5 min-h-screen">{children}</div>
+      <SidebarProvider>
+        <AppSidebar side="right" />
+        <SidebarInset>
+          {isMobile && <SidebarTrigger className="-ml-1" />}
+          <div className="p-5 min-h-screen">{children}</div>
+        </SidebarInset>
+      </SidebarProvider>
     </div>
   );
 };
