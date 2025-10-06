@@ -1,65 +1,42 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
 
-type ProductCardProps = {
-  id: number;
-  size?: "small" | "large";
-  name: string;
-  price: string;
-  imageUrl: string;
-  isFavorite?: boolean;
-  onToggleFavorite?: (id: number) => void;
-};
-export function ProductCard({
-  id,
-  size = "small",
-  name,
-  price,
-  imageUrl,
-  isFavorite = false,
-  onToggleFavorite,
-}: ProductCardProps) {
-  const sizes = {
-    small: {
-      width: "w-[350px]",
-      height: "h-[296px]",
-    },
-    large: {
-      width: "w-[404px]",
-      height: "h-[346px]",
-    },
-  };
-  const imageSize = sizes[size];
+const ProductCard = ({ size = "small" }) => {
+  const styles =
+    size === "large"
+      ? {
+          width: "var(--product-card-width-large)",
+          height: "var(--product-card-height-large)",
+        }
+      : {
+          width: "var(--product-card-width-small)",
+          height: "var(--product-card-height-small)",
+        };
   return (
-    <div className={`${imageSize.width} relative font-[IranYekan]`}>
-      <Card
-        className={`overflow-hidden rounded-lg ${imageSize.height} relative`}
-      >
-        <button
-          onClick={() => onToggleFavorite?.(id)}
-          aria-label={
-            isFavorite ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"
-          }
-          className="absolute top-2 right-2 z-10 bg-card rounded-full p-1 shadow-md transition hover:scale-110"
+    <div style={styles}>
+      <Card style={styles} className="  bg-muted-foreground p-1">
+        <Button
+          className="text-background bg-muted-foreground "
+          size="icon"
+          variant="link"
+          aria-label="Favorite"
         >
-          <Heart
-            className={`w-5 h-5 transition-colors ease-in-out ${
-              isFavorite
-                ? "text-red-500 fill-red-500 scale-110"
-                : "text-muted-foreground fill-transparent scale-100"
-            }`}
-          />
-        </button>
-        <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
+          <Heart className="transition-colors ease-in-out"></Heart>
+        </Button>
+        <img
+          src=""
+          alt="Product"
+          className="w-full h-full object-cover rounded"
+        />
       </Card>
-
       <div className="flex items-center justify-between pt-4 px-2">
-        <p className="text-sm font-medium text-right">{name}</p>
-        <Badge className="bg-primary text-primary-foreground rounded-full px-3 py-1 text-xs">
-          {price}
-        </Badge>
+        <Label className="text-sm font-medium ">Apple iPad Pro 12.9-inch</Label>
+        <Badge className="px-3 py-1 ">۱۰,۰۰۰ تومان</Badge>
       </div>
     </div>
   );
-}
+};
+export default ProductCard;
