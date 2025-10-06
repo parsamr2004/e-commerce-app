@@ -1,23 +1,13 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 
-const ProductCard = ({ size = "small" }) => {
-  const styles =
-    size === "large"
-      ? {
-          width: "var(--product-card-width-large)",
-          height: "var(--product-card-height-large)",
-        }
-      : {
-          width: "var(--product-card-width-small)",
-          height: "var(--product-card-height-small)",
-        };
+const ProductCard = () => {
   return (
-    <div style={styles}>
-      <Card style={styles} className="  bg-muted-foreground p-1">
+    <div>
+      <Card className="bg-muted-foreground p-1">
         <Button
           className="text-background bg-muted-foreground "
           size="icon"
