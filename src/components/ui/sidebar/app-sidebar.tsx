@@ -56,7 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
-      <SidebarFooter className="items-center">
+      <SidebarFooter>
         <ModeToggle />
         <NavUser
           user={data.users.loggedIn}
