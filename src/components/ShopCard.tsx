@@ -11,7 +11,7 @@ const ShopCard = () => {
   const productPrice = "۱۰,۰۰۰"
   const productDescription = "آیفون 14 پرو دارای صفحه نمایش 6.1 اینچی سوپر است نمایشگر Retina XDR ..."
   return (
-    <Card className="max-w-[328px] mr-4 mt-4 py-0">
+    <Card className="max-w-[328px] mr-4 mt-4 py-0 rounded-4">
       <CardContent className=" relative">
         <img
           src={ProductImg}
@@ -33,13 +33,13 @@ const ShopCard = () => {
       <div className="mx-5 my-5">
         <CardContent className="flex flex-row justify-between px-0 pb-4 font-light">
           <h3>{productTitle}</h3>
-          <div className="text-[var(--buttom-color)]">{productPrice} تومان</div>
+          <div className="text-primary">{productPrice} تومان</div>
         </CardContent>
         <CardDescription className="text-muted-foreground text-justify">
           {productDescription}
         </CardDescription>
         <CardFooter className="justify-between pt-4 pb-0 px-0 ">
-          <Button className="bg-[var(--buttom-color)] variant='outline' sizi='icon' ">
+          <Button className="bg-primary variant='outline' sizi='icon' ">
             <span>مشاهده بیشتر</span>
             <LucideArrowLeft></LucideArrowLeft>
           </Button>
