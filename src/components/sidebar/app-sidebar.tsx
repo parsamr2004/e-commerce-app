@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
-import { NavMain } from "@/components/ui/sidebar/nav-main";
-import { NavUser } from "@/components/ui/sidebar/nav-user";
+import { NavMain } from "@/components/sidebar/nav-main";
+import { NavUser } from "@/components/sidebar/nav-user";
 import {
   Sidebar,
   SidebarContent,

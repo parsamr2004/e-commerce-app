@@ -5,7 +5,7 @@ import {
   SidebarTrigger,
 } from "./components/ui/sidebar";
 import { useIsMobile } from "./hooks/use-mobile";
-import { AppSidebar } from "./components/ui/sidebar/app-sidebar";
+import { AppSidebar } from "./components/sidebar/app-sidebar";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const isMobile = useIsMobile();
