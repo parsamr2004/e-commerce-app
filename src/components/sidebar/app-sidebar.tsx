@@ -10,14 +10,15 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from "@/components/sidebar/nav-main";
+import { NavUser } from "@/components/sidebar/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { ModeToggle } from "../darkmode/mode-toggle";
 
 const data = {
   users: {
@@ -51,11 +52,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }));
 
   return (
-    <Sidebar collapsible="icon" {...props} >
+    <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
+        <ModeToggle />
         <NavUser
           user={data.users.loggedIn}
           isLogin={isLogin}

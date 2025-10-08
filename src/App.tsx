@@ -1,4 +1,5 @@
 // import { Badge } from "./components/ui/badge";
+
 import Layout from "./Layout";
 
 const App = () => {
