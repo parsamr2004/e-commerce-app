@@ -1,13 +1,12 @@
 // import { Badge } from "./components/ui/badge";
 
 import Layout from "./Layout";
+import ProductPage from "./pages/user/ProductPage";
 
 const App = () => {
   return (
     <Layout>
-      <div>
-        <h1>صفحه اصلی</h1>
-      </div>
+      <ProductPage />
     </Layout>
   );
 };
