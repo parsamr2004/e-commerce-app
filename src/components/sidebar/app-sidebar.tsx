@@ -29,10 +29,10 @@ const data = {
     },
   },
   navMain: [
-    { title: "داشبورد", url: "#", icon: LucideHome },
-    { title: "فروشگاه", url: "#", icon: LucideShoppingBag },
-    { title: "سبد خرید", url: "#", icon: LucideShoppingCart },
-    { title: "علاقه‌مندی‌ها", url: "#", icon: LucideHeart },
+    { title: "داشبورد", url: "/", icon: LucideHome },
+    { title: "فروشگاه", url: "/shop", icon: LucideShoppingBag },
+    { title: "سبد خرید", url: "/cart", icon: LucideShoppingCart },
+    { title: "علاقه‌مندی‌ها", url: "/favorites", icon: LucideHeart },
   ],
   guestMenu: [
     { title: "ورود", icon: LogIn, id: "login" },
