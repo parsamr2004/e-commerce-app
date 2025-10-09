@@ -1,14 +1,13 @@
-import { Star, ShoppingCart, ShoppingBag, Store, Clock4 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
   CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
-import React from "react";
+import { Clock4, ShoppingBag, ShoppingCart, Star, Store } from "lucide-react";
 
 const HomePage = () => {
   return (
