@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/Layout";
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Input } from "@/components/ui/input";
 import ShopCard from "@/components/ShopCard";
 
 interface RadioItemType {
