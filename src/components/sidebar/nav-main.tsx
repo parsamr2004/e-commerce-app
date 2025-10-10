@@ -7,6 +7,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Link } from "react-router";
 
 export function NavMain({
   items,
@@ -32,16 +33,18 @@ export function NavMain({
             defaultOpen={item.isActive}
             className="group/collapsible"
           >
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                tooltip={item.title}
-                className="cursor-pointer"
-              >
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-              <CollapsibleContent></CollapsibleContent>
-            </SidebarMenuItem>
+            <Link to={item.url}>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  className="cursor-pointer"
+                >
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+                <CollapsibleContent></CollapsibleContent>
+              </SidebarMenuItem>
+            </Link>
           </Collapsible>
         ))}
       </SidebarMenu>

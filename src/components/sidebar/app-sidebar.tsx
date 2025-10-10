@@ -10,14 +10,15 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from "@/components/sidebar/nav-main";
+import { NavUser } from "@/components/sidebar/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { ModeToggle } from "../darkmode/mode-toggle";
 
 const data = {
   users: {
@@ -28,10 +29,10 @@ const data = {
     },
   },
   navMain: [
-    { title: "داشبورد", url: "#", icon: LucideHome },
-    { title: "فروشگاه", url: "#", icon: LucideShoppingBag },
-    { title: "سبد خرید", url: "#", icon: LucideShoppingCart },
-    { title: "علاقه‌مندی‌ها", url: "#", icon: LucideHeart },
+    { title: "داشبورد", url: "/", icon: LucideHome },
+    { title: "فروشگاه", url: "/shop", icon: LucideShoppingBag },
+    { title: "سبد خرید", url: "/cart", icon: LucideShoppingCart },
+    { title: "علاقه‌مندی‌ها", url: "/favorites", icon: LucideHeart },
   ],
   guestMenu: [
     { title: "ورود", icon: LogIn, id: "login" },
@@ -51,11 +52,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }));
 
   return (
-    <Sidebar collapsible="icon" {...props} >
+    <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
+        <ModeToggle />
         <NavUser
           user={data.users.loggedIn}
           isLogin={isLogin}

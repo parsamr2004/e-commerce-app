@@ -1,13 +1,13 @@
-import type { ReactNode } from "react";
+import { Outlet } from "react-router";
+import { AppSidebar } from "./components/sidebar/app-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "./components/ui/sidebar";
 import { useIsMobile } from "./hooks/use-mobile";
-import { AppSidebar } from "./components/app-sidebar";
 
-const Layout = ({ children }: { children: ReactNode }) => {
+const Layout = () => {
   const isMobile = useIsMobile();
   return (
     <div className="flex">
@@ -15,7 +15,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <AppSidebar side="right" />
         <SidebarInset>
           {isMobile && <SidebarTrigger className="-ml-1" />}
-          <div className="p-5 min-h-screen">{children}</div>
+          <div className="p-5 min-h-screen">
+            <Outlet />
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </div>
