@@ -23,7 +23,6 @@ const RadioItem = (props:RadioItemType) =>{
 
 const ShopPage = () => {
   return (
-    <Layout>
       <div className="flex">
          {/* bg-base-side */}
         <div className="max-w-[264px] w-full bg-base-side">
@@ -51,8 +50,6 @@ const ShopPage = () => {
         </div>
         
       </div>
-        
-    </Layout>
   )
   ;
 };
