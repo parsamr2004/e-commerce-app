@@ -1,8 +1,7 @@
 import OrderItemsTable from "../../components/OrderItemsTable";
 import OrderSummaryCard from "@/components/OrderSummaryCard";
-import { Button } from "@/components/ui/button";
 
-const CheckoutPage = () => {
+const DetailsPage = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 m-8">
       <div className="lg:col-span-2">
@@ -10,12 +9,9 @@ const CheckoutPage = () => {
       </div>
       <div className="lg:col-span-1">
         <OrderSummaryCard />
-        <Button className="w-full bg-[var(--primary)] hover:bg-[var(--primary)] text-[var(--background)] py-4 rounded-full text-lg font-medium transition-all duration-300 ease-in-out">
-          پرداخت
-        </Button>
       </div>
     </div>
   );
 };
 
-export default CheckoutPage;
+export default DetailsPage;
