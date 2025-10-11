@@ -26,13 +26,10 @@ const OrderSummaryCard = () => {
           <p>درگاه پرداخت پاسارگاد</p>
         </div>
       </div>
-      <Badge
-        variant="secondary"
-        className="w-full justify-start p-2 font-bold text-base"
-      >
+      <Badge variant="secondary" className="w-full justify-start p-2 text-base font-bold">
         Status
       </Badge>
-      <div className="flex flex-col gap-2 m-3 ">
+      <div className="m-3 flex flex-col gap-2">
         <h2 className="font-bold">خلاصه خرید</h2>
         <div className="flex justify-between">
           <span>قیمت محصولات:</span>
@@ -46,7 +43,7 @@ const OrderSummaryCard = () => {
           <span>مالیات:</span>
           <span>۱۵,۰۰۰ تومان</span>
         </div>
-        <div className="flex justify-between ">
+        <div className="flex justify-between">
           <span>مبلغ نهایی:</span>
           <span>۱۲۵,۰۰۰ تومان</span>
         </div>

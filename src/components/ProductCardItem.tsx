@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import {
   Select,
+  SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectContent,
   SelectValue,
 } from "@/components/ui/select";
 import { LucideTrash2 } from "lucide-react";
@@ -20,7 +20,7 @@ const ProductCardItem = (props: ProductCardItemprops) => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-5">
-        <div className="w-[88px] h-[88px]">
+        <div className="h-[88px] w-[88px]">
           <img src={url} alt="" />
         </div>
         <div className="flex flex-col gap-1">
@@ -30,14 +30,14 @@ const ProductCardItem = (props: ProductCardItemprops) => {
         </div>
       </div>
       <div>
-        <div className="flex gap-2 justify-end">
+        <div className="flex justify-end gap-2">
           <Select>
-            <SelectTrigger className="w-[96px] border-input bg-white shadow-none cursor-pointer">
+            <SelectTrigger className="border-input w-[96px] cursor-pointer bg-white shadow-none">
               <SelectValue placeholder="1" />
             </SelectTrigger>
             <SelectContent
               side="right"
-              className="cursor-pointer w-[var(--radix-select-trigger-width)]"
+              className="w-[var(--radix-select-trigger-width)] cursor-pointer"
             >
               <SelectItem value="1">1</SelectItem>
               <SelectItem value="2">2</SelectItem>

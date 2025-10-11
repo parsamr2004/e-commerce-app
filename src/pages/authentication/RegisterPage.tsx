@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import light_auth from "../../assets/images/light_auth.png";
 import dark_auth from "../../assets/images/dark-auth.png";
+import light_auth from "../../assets/images/light_auth.png";
 
 const RegisterPage = () => {
   return (
-    <div className="flex justify-between max-[1120px]:flex-col max-[1120px]:w-full gap-10">
+    <div className="flex justify-between gap-10 max-[1120px]:w-full max-[1120px]:flex-col">
       <form action="">
         <div className="flex flex-col gap-5">
-          <span className="font-bold text-2xl">ورود</span>
+          <span className="text-2xl font-bold">ورود</span>
           <div className="flex flex-col gap-3">
             <Label htmlFor="email">نام</Label>
             <Input
@@ -56,12 +56,12 @@ const RegisterPage = () => {
         <img
           src={light_auth}
           alt="light_auth"
-          className="w-full h-full object-cover dark:hidden rounded-xl"
+          className="h-full w-full rounded-xl object-cover dark:hidden"
         />
         <img
           src={dark_auth}
           alt="dark_auth"
-          className="w-full h-full object-cover hidden dark:block rounded-xl"
+          className="hidden h-full w-full rounded-xl object-cover dark:block"
         />
       </div>
     </div>

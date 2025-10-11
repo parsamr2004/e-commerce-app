@@ -1,6 +1,6 @@
-import product from "../../assets/images/product.png";
-import { Button } from "@/components/ui/button";
 import ProductCardItem from "@/components/ProductCardItem";
+import { Button } from "@/components/ui/button";
+import product from "../../assets/images/product.png";
 
 const CartPage = () => {
   return (
@@ -24,10 +24,8 @@ const CartPage = () => {
         <p className="text-xl">
           تعداد <span>(3)</span>
         </p>
-        <span className="font-bold text-xl">۱۰,۰۰۰ تومان</span>
-        <Button className="rounded-2xl px-50 cursor-pointer self-start">
-          تکمیل خرید
-        </Button>
+        <span className="text-xl font-bold">۱۰,۰۰۰ تومان</span>
+        <Button className="cursor-pointer self-start rounded-2xl px-50">تکمیل خرید</Button>
       </div>
     </div>
   );
