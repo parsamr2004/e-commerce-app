@@ -7,6 +7,7 @@ import CartPage from "./pages/user/CartPage";
 import FavoritesPage from "./pages/user/FavoritePage";
 import ProductPage from "./pages/user/ProductPage";
 import ShopPage from "./pages/user/ShopPage";
+import ProfilePage from "./pages/user/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         Component: RegisterPage,
+      },
+       {
+        path: "profile",
+        Component: ProfilePage,
       },
       {
         path: "shop",
