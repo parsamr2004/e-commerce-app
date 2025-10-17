@@ -8,6 +8,7 @@ import FavoritesPage from "./pages/user/FavoritePage";
 import ProductPage from "./pages/user/ProductPage";
 import ShopPage from "./pages/user/ShopPage";
 import ProfilePage from "./pages/user/ProfilePage";
+import UserOrdersPage from "./pages/user/UserOrdersPage";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "favorites",
         Component: FavoritesPage,
+      },
+      {
+        path: "MyOrders",
+        Component: UserOrdersPage,
       },
     ],
   },
