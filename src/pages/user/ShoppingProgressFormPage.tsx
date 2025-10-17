@@ -2,17 +2,16 @@ import Stepper from "@/components/Stepper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Layout from "@/Layout";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const ShoppingProgressForm = () => {
   return (
-    <Layout>
+    <>
       <Stepper />
-      <div className="flex justify-between gap-10 mt-40 mr-105">
+      <div className="mt-40 mr-105 flex justify-between gap-10">
         <form action="">
           <div className="flex flex-col gap-5">
-            <span className="font-bold text-2xl">آدرس دریافت</span>
+            <span className="text-2xl font-bold">آدرس دریافت</span>
             <div className="flex flex-col gap-3">
               <Label>آدرس</Label>
               <Input
@@ -45,20 +44,14 @@ const ShoppingProgressForm = () => {
                 type="text"
               ></Input>
             </div>
-            <p className="text-sm bg-[var( --muted-foreground)]">روش پرداخت</p>
+            <p className="bg-[var( --muted-foreground)] text-sm">روش پرداخت</p>
             <RadioGroup>
-              <div className="flex justify-end items-center gap-3">
+              <div className="flex items-center justify-end gap-3">
                 <Label htmlFor="bank">درگاه پرداخت پاسارگاد</Label>
 
                 <RadioGroupItem
                   value="pay"
-                  className="
-    w-4 h-4 border border-[var(--border)] rounded-full relative
-    after:content-[''] after:absolute after:top-1/2 after:left-1/2
-    after:w-2 after:h-2 after:bg-[var(--primary)] after:rounded-full
-    after:-translate-x-1/2 after:-translate-y-1/2
-    data-[state=unchecked]:after:hidden
-  "
+                  className="relative h-4 w-4 rounded-full border border-[var(--border)] after:absolute after:top-1/2 after:left-1/2 after:h-2 after:w-2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-[var(--primary)] after:content-[''] data-[state=unchecked]:after:hidden"
                 />
               </div>
             </RadioGroup>
@@ -67,7 +60,7 @@ const ShoppingProgressForm = () => {
           </div>
         </form>
       </div>
-    </Layout>
+    </>
   );
 };
 

@@ -1,10 +1,10 @@
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableHead,
-  TableRow,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 // import product from "../../assets/images/product.png";
 
@@ -36,36 +36,30 @@ const OrderItemsTable = () => {
 
   return (
     <div>
-      <Table className="text-center border">
+      <Table className="border text-center">
         <TableHeader>
           <TableRow>
-            <TableHead className="text-right px-2 py-3 ">عکس</TableHead>
-            <TableHead className="text-right px-1 py-3  ">نام محصول</TableHead>
-            <TableHead className="px-2 py-3 text-center ">تعداد</TableHead>
-            <TableHead className="px-2 py-3 text-center ">قیمت</TableHead>
-            <TableHead className="px-2 py-3 text-center ">قیمت نهایی</TableHead>
+            <TableHead className="px-2 py-3 text-right">عکس</TableHead>
+            <TableHead className="px-1 py-3 text-right">نام محصول</TableHead>
+            <TableHead className="px-2 py-3 text-center">تعداد</TableHead>
+            <TableHead className="px-2 py-3 text-center">قیمت</TableHead>
+            <TableHead className="px-2 py-3 text-center">قیمت نهایی</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {checkoutItems.map((item) => (
             <TableRow key={item.id} className="border-none">
-              <TableCell className="text-right px-3 py-3 ">
+              <TableCell className="px-3 py-3 text-right">
                 <img
                   src={item.image}
                   alt="Product"
-                  className="inline-block w-12 h-12 object-contain"
+                  className="inline-block h-12 w-12 object-contain"
                 />
               </TableCell>
-              <TableCell className="px-1 py-3 text-right ">
-                {item.name}
-              </TableCell>
-              <TableCell className="px-3 py-3 text-center ">
-                {item.quantity}
-              </TableCell>
-              <TableCell className="px-3 py-3 text-center ">
-                ${item.price.toFixed(2)}
-              </TableCell>
-              <TableCell className="px-3 py-3 text-center ">
+              <TableCell className="px-1 py-3 text-right">{item.name}</TableCell>
+              <TableCell className="px-3 py-3 text-center">{item.quantity}</TableCell>
+              <TableCell className="px-3 py-3 text-center">${item.price.toFixed(2)}</TableCell>
+              <TableCell className="px-3 py-3 text-center">
                 {(item.price * item.quantity).toFixed(2)}
               </TableCell>
             </TableRow>

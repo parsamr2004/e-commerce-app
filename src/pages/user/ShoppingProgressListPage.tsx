@@ -1,5 +1,5 @@
 import Stepper from "@/components/Stepper";
-import Layout from "@/Layout";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,97 +8,80 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import product from "../../assets/images/product.png";
 
 const ShoppingProgressTablePage = () => {
   return (
-    <Layout>
+    <>
       <Stepper />
-      <div className="flex flex-col  px-15">
-        <div dir="rtl" className="w-full  overflow-auto px-15">
+      <div className="flex flex-col px-15">
+        <div dir="rtl" className="w-full overflow-auto px-15">
           <Table className="mt-30 w-full text-center">
             <TableHeader>
               <TableRow>
-                <TableHead className="text-right px-3 py-3 ">عکس</TableHead>
-                <TableHead className="text-right px-1 py-3  ">
-                  نام محصول
-                </TableHead>
+                <TableHead className="px-3 py-3 text-right">عکس</TableHead>
+                <TableHead className="px-1 py-3 text-right">نام محصول</TableHead>
 
-                <TableHead className="px-3 py-3 text-center ">تعداد</TableHead>
-                <TableHead className="px-3 py-3 text-center ">قیمت</TableHead>
-                <TableHead className="px-3 py-3 text-center ">
-                  قیمت نهایی
-                </TableHead>
+                <TableHead className="px-3 py-3 text-center">تعداد</TableHead>
+                <TableHead className="px-3 py-3 text-center">قیمت</TableHead>
+                <TableHead className="px-3 py-3 text-center">قیمت نهایی</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell className="text-right px-3 py-3 ">
+                <TableCell className="px-3 py-3 text-right">
                   <img
                     src={product}
                     alt="Product"
-                    className="inline-block w-12 h-12 object-contain"
+                    className="inline-block h-12 w-12 object-contain"
                   />
                 </TableCell>
 
-                <TableCell className="px-1 py-3 text-right ">
-                  Apple iPhone 14 Pro
-                </TableCell>
-                <TableCell className="px-3 py-3 text-center ">1</TableCell>
-                <TableCell className="px-3 py-3 text-center ">
-                  $ 999.00
-                </TableCell>
-                <TableCell className="px-3 py-3 text-center ">999.00</TableCell>
+                <TableCell className="px-1 py-3 text-right">Apple iPhone 14 Pro</TableCell>
+                <TableCell className="px-3 py-3 text-center">1</TableCell>
+                <TableCell className="px-3 py-3 text-center">$ 999.00</TableCell>
+                <TableCell className="px-3 py-3 text-center">999.00</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="text-right px-3 py-3 ">
+                <TableCell className="px-3 py-3 text-right">
                   <img
                     src={product}
                     alt="Product"
-                    className="inline-block w-12 h-12 object-contain"
+                    className="inline-block h-12 w-12 object-contain"
                   />
                 </TableCell>
 
-                <TableCell className="px-1 py-3 text-right ">
-                  Apple MacBook Air M2
-                </TableCell>
-                <TableCell className="px-3 py-3 text-center ">1</TableCell>
-                <TableCell className="px-3 py-3 text-center ">
-                  $ 999.00
-                </TableCell>
-                <TableCell className="px-3 py-3 text-center ">999.00</TableCell>
+                <TableCell className="px-1 py-3 text-right">Apple MacBook Air M2</TableCell>
+                <TableCell className="px-3 py-3 text-center">1</TableCell>
+                <TableCell className="px-3 py-3 text-center">$ 999.00</TableCell>
+                <TableCell className="px-3 py-3 text-center">999.00</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="text-right px-3 py-3 ">
+                <TableCell className="px-3 py-3 text-right">
                   <img
                     src={product}
                     alt="Product"
-                    className="inline-block w-12 h-12 object-contain "
+                    className="inline-block h-12 w-12 object-contain"
                   />
                 </TableCell>
 
-                <TableCell className="px-1 py-3 text-right ">
-                  Apple iPad Pro 12.9-inch
-                </TableCell>
-                <TableCell className="px-3 py-3 text-center ">1</TableCell>
-                <TableCell className="px-3 py-3 text-center ">
-                  $ 999.00
-                </TableCell>
-                <TableCell className="px-3 py-3 text-center ">999.00</TableCell>
+                <TableCell className="px-1 py-3 text-right">Apple iPad Pro 12.9-inch</TableCell>
+                <TableCell className="px-3 py-3 text-center">1</TableCell>
+                <TableCell className="px-3 py-3 text-center">$ 999.00</TableCell>
+                <TableCell className="px-3 py-3 text-center">999.00</TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </div>
-        <h1 className="font-bold px-15 mt-6 mb-2"> خلاصه خرید</h1>
-        <div className="bg-[var(--muted)] p-9 rounded-2xl text-sm grid grid-cols-3 gap-4 text-right items-start mx-15">
+        <h1 className="mt-6 mb-2 px-15 font-bold"> خلاصه خرید</h1>
+        <div className="mx-15 grid grid-cols-3 items-start gap-4 rounded-2xl bg-[var(--muted)] p-9 text-right text-sm">
           <div>
-            <h3 className="font-semibold mb-2">روش پرداخت</h3>
+            <h3 className="mb-2 font-semibold">روش پرداخت</h3>
             <p>درگاه پرداخت پاسارگاد</p>
           </div>
 
           <div>
-            <h3 className="font-semibold mb-2">آدرس دریافت</h3>
+            <h3 className="mb-2 font-semibold">آدرس دریافت</h3>
             <p>تهران، آزادی، نبش کوچه فخری، پلاک ۱۹۳</p>
           </div>
 
@@ -115,7 +98,7 @@ const ShoppingProgressTablePage = () => {
               <span>مالیات:</span>
               <span>۱۵,۰۰۰ تومان</span>
             </div>
-            <div className="flex justify-between ">
+            <div className="flex justify-between">
               <span>مبلغ نهایی:</span>
               <span>۱۲۵,۰۰۰ تومان</span>
             </div>
@@ -123,12 +106,12 @@ const ShoppingProgressTablePage = () => {
         </div>
 
         <div className="mt-2 px-15">
-          <Button className="w-full bg-[var(--primary)] hover:bg-[var(--primary)] text-[var(--background)] py-5 rounded-full text-lg font-medium transition-all duration-300 ease-in-out">
+          <Button className="w-full rounded-full bg-[var(--primary)] py-5 text-lg font-medium text-[var(--background)] transition-all duration-300 ease-in-out hover:bg-[var(--primary)]">
             ثبت سفارش
           </Button>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 
