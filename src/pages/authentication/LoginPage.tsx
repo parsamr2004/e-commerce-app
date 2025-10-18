@@ -7,6 +7,7 @@ import { useState, type FormEvent } from "react";
 import useLogin from "@/hooks/use-login";
 import type { LoginPayload } from "@/types/login.model";
 import { LucideLoader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const [payload, setPayload] = useState<LoginPayload>({ email: "", password: "" });
@@ -17,6 +18,8 @@ const LoginPage = () => {
     e.preventDefault();
     if (payload.email && payload.password) {
       mutate(payload);
+    } else {
+      toast.error("لطفا تمامی فیلد ها را پر کنید");
     }
   };
 

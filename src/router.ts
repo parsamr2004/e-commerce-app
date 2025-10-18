@@ -1,13 +1,14 @@
 import { createBrowserRouter } from "react-router";
 import App from "./App";
 import Layout from "./Layout";
+import createProductPage from "./pages/admin/createProductPage";
 import LoginPage from "./pages/authentication/LoginPage";
 import RegisterPage from "./pages/authentication/RegisterPage";
 import CartPage from "./pages/user/CartPage";
 import FavoritesPage from "./pages/user/FavoritePage";
 import ProductPage from "./pages/user/ProductPage";
 import ShopPage from "./pages/user/ShopPage";
-import createProductPage from "./pages/admin/createProductPage";
+import PrivateRoutes from "./privateRoutes";
 
 const router = createBrowserRouter([
   {
@@ -35,17 +36,22 @@ const router = createBrowserRouter([
         Component: ShopPage,
       },
       {
-        path: "cart",
-        Component: CartPage,
-      },
-      {
-        path: "favorites",
-        Component: FavoritesPage,
-      },
-      {
         path: "createproduct",
-        Component: createProductPage
-      }
+        Component: createProductPage,
+      },
+      {
+        Component: PrivateRoutes,
+        children: [
+          {
+            path: "favorites",
+            Component: FavoritesPage,
+          },
+          {
+            path: "cart",
+            Component: CartPage,
+          },
+        ],
+      },
     ],
   },
 ]);
