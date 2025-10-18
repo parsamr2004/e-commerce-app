@@ -8,14 +8,17 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Clock4, ShoppingBag, ShoppingCart, Star, Store } from "lucide-react";
+import useProducts from "./hooks/use-products";
 
 const App = () => {
+  const { data: products } = useProducts();
+
   return (
     <section className="">
       <article className="flex gap-10">
         <div className="grid flex-1 grid-cols-2 gap-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <ProductCard key={i} />
+          {products?.slice(0, 4).map((product) => (
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
         <div className="flex-1">
@@ -92,26 +95,7 @@ const App = () => {
       ". card5 card6 ."
     `,
           }}
-        >
-          <div className="" style={{ gridArea: "card1" }}>
-            <ProductCard />
-          </div>
-          <div style={{ gridArea: "card2" }}>
-            <ProductCard />
-          </div>
-          <div style={{ gridArea: "card3" }}>
-            <ProductCard />
-          </div>
-          <div style={{ gridArea: "card4" }}>
-            <ProductCard />
-          </div>
-          <div style={{ gridArea: "card5" }}>
-            <ProductCard />
-          </div>
-          <div style={{ gridArea: "card6" }}>
-            <ProductCard />
-          </div>
-        </div>
+        ></div>
       </div>
     </section>
   );
