@@ -10,7 +10,7 @@ import ShopPage from "./pages/user/ShopPage";
 import ProfilePage from "./pages/user/ProfilePage";
 import UserOrdersPage from "./pages/user/UserOrdersPage";
 import CreateProductPage from "./pages/admin/CreateProductPage";
-
+import createProductPage from "./pages/admin/createProductPage";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +56,8 @@ const router = createBrowserRouter([
       {
         path: "createproduct",
         Component: CreateProductPage
+        path: "createproduct",
+        Component: createProductPage
       }
     ],
   },
