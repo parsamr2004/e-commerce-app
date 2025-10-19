@@ -22,10 +22,6 @@ const router = createBrowserRouter([
         Component: App,
       },
       {
-        path: "products/:id",
-        Component: ProductPage,
-      },
-      {
         path: "login",
         Component: LoginPage,
       },
@@ -34,28 +30,12 @@ const router = createBrowserRouter([
         Component: RegisterPage,
       },
       {
-        path: "profile",
-        Component: ProfilePage,
+        path: "products/:id",
+        Component: ProductPage,
       },
       {
         path: "shop",
         Component: ShopPage,
-      },
-      {
-        path: "cart",
-        Component: CartPage,
-      },
-      {
-        path: "favorites",
-        Component: FavoritesPage,
-      },
-      {
-        path: "MyOrders",
-        Component: UserOrdersPage,
-      },
-      {
-        path: "createproduct",
-        Component: CreateProductPage,
       },
       {
         Component: PrivateRoutes,
@@ -67,6 +47,18 @@ const router = createBrowserRouter([
           {
             path: "cart",
             Component: CartPage,
+          },
+          {
+            path: "profile",
+            Component: ProfilePage,
+          },
+          {
+            path: "my-orders",
+            Component: UserOrdersPage,
+          },
+          {
+            path: "create-product",
+            Component: CreateProductPage,
           },
         ],
       },
