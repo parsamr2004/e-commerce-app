@@ -1,11 +1,12 @@
-import type { Review } from "./review.model.ts";
+import type { Category } from "./category.model";
+import type { Review } from "./review.model";
 
 export type Product = {
   _id: string;
   name: string;
   image: string;
   quantity: number;
-  category: string;
+  category?: Category;
   description: string;
   rating: number;
   numReviews: number;
