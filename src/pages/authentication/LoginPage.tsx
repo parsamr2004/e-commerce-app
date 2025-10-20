@@ -8,6 +8,7 @@ import useLogin from "@/hooks/use-login";
 import type { LoginPayload } from "@/types/login.model";
 import { LucideLoader2 } from "lucide-react";
 import { toast } from "sonner";
+import { Link } from "react-router";
 
 const LoginPage = () => {
   const [payload, setPayload] = useState<LoginPayload>({ email: "", password: "" });
@@ -56,7 +57,10 @@ const LoginPage = () => {
 
         <div className="mt-3">
           <p>
-            عضو نیستید ؟ <span className="text-primary">ثبت نام</span>
+            عضو نیستید ؟{" "}
+            <Link to="/register" className="text-primary">
+              ثبت نام
+            </Link>
           </p>
         </div>
       </form>
