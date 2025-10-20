@@ -11,6 +11,7 @@ import ProfilePage from "./pages/user/ProfilePage";
 import UserOrdersPage from "./pages/user/UserOrdersPage";
 import CreateProductPage from "./pages/admin/CreateProductPage";
 import PrivateRoutes from "./PrivateRoutes";
+import { Dashboard } from "./pages/admin/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "shop",
         Component: ShopPage,
+      },
+      {
+        path: "dashboard",
+        Component: Dashboard,
       },
       {
         Component: PrivateRoutes,
