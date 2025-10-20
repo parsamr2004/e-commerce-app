@@ -6,6 +6,7 @@ const useUser = () => {
   return useQuery<User>({
     queryKey: ["user-profile"],
     queryFn: () => axiosInstance.get("/users/profile").then((res) => res.data),
+    retry: 1,
   });
 };
 

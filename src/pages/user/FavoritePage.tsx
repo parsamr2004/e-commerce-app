@@ -1,18 +1,19 @@
+import useFavorites from "@/hooks/use-favorites";
 import ProductCard from "@/components/ProductCard";
 
 const FavoritesPage = () => {
-  const products = [1, 2];
-  // ورودی موقت برای دیدن نتیجه کار بعدا با استیت مینویسم
+  const { favorites, toggleFavorite } = useFavorites();
+  if (favorites.length === 0) return <p className="p-6">هیچ محصول مورد علاقه‌ای وجود ندارد.</p>;
 
   return (
     <div className="p-6">
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {products.map((product) => (
+      <div className="grid auto-cols-min auto-rows-min grid-cols-1 gap-6 sm:grid-cols-4">
+        {favorites.map((product) => (
           <div
-            key={product}
-            className="[&_.lucide-heart]:text-primary [&_.lucide-heart]:fill-primary"
+            key={product._id}
+            className="[&_.lucide-heart]:text-muted [&_.lucide-heart]:fill-muted"
           >
-            <ProductCard />
+            <ProductCard product={product} toggleFavorite={toggleFavorite} isFavorite={true} />
           </div>
         ))}
       </div>

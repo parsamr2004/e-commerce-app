@@ -5,16 +5,27 @@ import { Label } from "@/components/ui/label";
 import type { Product } from "@/types/product.model";
 import { LucideHeart } from "lucide-react";
 
-const ProductCard = ({ product }: { product: Product }) => {
+interface ProductCardProps {
+  product: Product;
+  toggleFavorite: (product: Product) => void;
+  isFavorite: boolean;
+}
+
+const ProductCard = ({ product, toggleFavorite, isFavorite }: ProductCardProps) => {
   return (
-    <Card className="overflow-hidden p-0">
+    <Card className="h-full w-full overflow-hidden p-0">
       <CardContent className="relative p-0">
-        <img src={product.image} alt={product.name} className="rounded object-cover" />
+        <img src={product.image} alt={product.name} className="object-cover" />
         <Button
-          className="text-background absolute top-2 right-2"
+          className={`absolute top-2 right-2 ${
+            isFavorite
+              ? "[&_.lucide-heart]:text-muted [&_.lucide-heart]:fill-muted"
+              : "text-background"
+          }`}
           size="icon"
           variant="default"
           aria-label="Favorite"
+          onClick={() => toggleFavorite(product)}
         >
           <LucideHeart />
         </Button>

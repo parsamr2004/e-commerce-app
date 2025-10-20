@@ -12,7 +12,7 @@ export type Product = {
   numReviews: number;
   price: number;
   countInStock: number;
-  reviews: Review[];
+  reviews?: Review[];
   createdAt: string;
   updatedAt: string;
 };
