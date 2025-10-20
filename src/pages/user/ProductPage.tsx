@@ -48,41 +48,39 @@ export const ProductPage = () => {
   const [isWishlist, setIsWishlist] = useState(false);
 
   return (
-    <div className="flex flex-col w-full h-full py-6 px-3">
-      <div className="flex flex-row h-3/ w-full  items-stretch  gap-5">
-        <div className="w-full h-full bg-amber-500 flex items-center justify-center rounded-3xl overflow-hidden">
+    <div className="flex h-full w-full flex-col px-3 py-6">
+      <div className="h-3/ flex w-full flex-row items-stretch gap-5">
+        <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-3xl">
           <img
             src={product.image}
             alt={product.name}
-            className="max-w-full max-h-full object-contain"
+            className="max-h-full max-w-full object-contain"
           />
         </div>
         {/* main */}
-        <div className="flex flex-col h-full  w-full ">
-          <CardContent className="w-full flex flex-col h-full ">
+        <div className="flex h-full w-full flex-col">
+          <CardContent className="flex h-full w-full flex-col">
             <div className="mb-4 flex flex-col">
               <div className="flex flex-row justify-between">
                 <h2 className="text-2xl font-bold">{product.name}</h2>
               </div>
 
-              <div className="w-full flex flex-row justify-between">
+              <div className="flex w-full flex-row justify-between">
                 <p></p>
               </div>
 
               <br />
               <p className="mb-6">{product.description}</p>
               <br />
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl font-bold ">
-                  {product.price} تومان
-                </span>
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-3xl font-bold">{product.price} تومان</span>
               </div>
             </div>
 
             {/* details */}
 
             <div className="flex flex-col justify-center">
-              <div className="flex flex-row justify-between ">
+              <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center">
                   <LucideStar className="fill-black dark:fill-white" />
                   <p className="pr-1">امتیاز :</p>
@@ -122,8 +120,8 @@ export const ProductPage = () => {
               </div>
             </div>
             <br />
-            <div className="flex items-center mb-4 flex-row justify-between">
-              <div className="flex flex-row items-center dir-rtl">
+            <div className="mb-4 flex flex-row items-center justify-between">
+              <div className="dir-rtl flex flex-row items-center">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => {
                     const rating = product.rating;
@@ -137,20 +135,18 @@ export const ProductPage = () => {
                       fillPercentage = (rating % 1) * 100;
                     }
 
-                    return (
-                      <RatingStar key={i} fillPercentage={fillPercentage} />
-                    );
+                    return <RatingStar key={i} fillPercentage={fillPercentage} />;
                   })}
                 </div>
                 <div className="mr-2 text-sm"> {product.reviews} نظر</div>
               </div>
               <Select>
-                <SelectTrigger className="w-[96px] border-input shadow-none cursor-pointer">
+                <SelectTrigger className="border-input w-[96px] cursor-pointer shadow-none">
                   <SelectValue placeholder="1" />
                 </SelectTrigger>
                 <SelectContent
                   side="left"
-                  className="cursor-pointer w-[var(--radix-select-trigger-width)]"
+                  className="w-[var(--radix-select-trigger-width)] cursor-pointer"
                 >
                   <SelectItem value="1">1</SelectItem>
                   <SelectItem value="2">2</SelectItem>
@@ -159,26 +155,18 @@ export const ProductPage = () => {
               </Select>
             </div>
             <br />
-            <div className="mt-auto w-2/5 ">
-              <Button className="w-full bg-primary  cursor-pointer" size="lg">
-                <ShoppingCart className="mr-2 h-5 w-5 " />
+            <div className="mt-auto w-2/5">
+              <Button className="bg-primary w-full cursor-pointer" size="lg">
+                <ShoppingCart className="mr-2 h-5 w-5" />
                 افزودن به سبد خرید
               </Button>
             </div>
           </CardContent>
         </div>
         {/* favorite */}
-        <div className="w-[10%] flex items-start justify-end">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsWishlist(!isWishlist)}
-          >
-            <Heart
-              className={`h-5 w-5 ${
-                isWishlist ? "fill-current text-red-500" : ""
-              }`}
-            />
+        <div className="flex w-[10%] items-start justify-end">
+          <Button variant="ghost" size="icon" onClick={() => setIsWishlist(!isWishlist)}>
+            <Heart className={`h-5 w-5 ${isWishlist ? "fill-current text-red-500" : ""}`} />
           </Button>
         </div>
       </div>
@@ -191,21 +179,21 @@ export const ProductPage = () => {
         orientation="horizontal"
         about="fill"
         defaultValue="submit-review"
-        className="w-full max-w-lg mx-auto p-4  rounded-lg"
+        className="mx-auto w-full max-w-lg rounded-lg p-4"
       >
-        <TabsList className="grid w-full grid-cols-3 dir-rtl" dir="rtl">
+        <TabsList className="dir-rtl grid w-full grid-cols-3" dir="rtl">
           <TabsTrigger value="submit-review">ثبت نظر</TabsTrigger>
           <TabsTrigger value="view-reviews">مشاهده نظرات</TabsTrigger>
           <TabsTrigger value="related-products">محصولات مرتبط</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="submit-review" className="mt-4 p-4  rounded-lg">
-          <div className="space-y-4 dir-rtl text-right">
+        <TabsContent value="submit-review" className="mt-4 rounded-lg p-4">
+          <div className="dir-rtl space-y-4 text-right">
             <label htmlFor="rating" className="block text-sm font-medium">
               امتیاز
             </label>
             <Select dir="rtl" name="rating">
-              <SelectTrigger className="w-full text-right ">
+              <SelectTrigger className="w-full text-right">
                 <SelectValue placeholder="انتخاب امتیاز" />
               </SelectTrigger>
               <SelectContent className="dir-rtl text-right">
@@ -223,29 +211,26 @@ export const ProductPage = () => {
             <Textarea
               id="review"
               placeholder="نظر خود را وارد نمایید"
-              className="min-h-[150px] text-right "
+              className="min-h-[150px] text-right"
             />
 
             <div className="flex justify-end pt-4">
-              <Button
-                type="submit"
-                className=" bg-primary hover:bg-primary-foreground "
-              >
+              <Button type="submit" className="bg-primary hover:bg-primary-foreground">
                 ثبت نظر
               </Button>
             </div>
           </div>
         </TabsContent>
 
-        <TabsContent value="view-reviews" className="mt-4 p-4  rounded-lg">
-          <div className="bg-gray-100 p-6 rounded-lg my-4">
+        <TabsContent value="view-reviews" className="mt-4 rounded-lg p-4">
+          <div className="my-4 rounded-lg bg-gray-100 p-6">
             <div className="flex justify-between text-sm text-gray-600">
               <span className="rtl:text-right">۱۴۰۲/۰۵/۲۱</span>
               <span className="rtl:text-left">علی موسوی</span>
             </div>
-            <p className="mt-4  text-gray-800">
-              متن پیام اینجا وارد میشود که میتواند به متن بلند برای مثال لورم
-              ایپسوم یک متن ساختگی هست برای کارهای گرافیکی
+            <p className="mt-4 text-gray-800">
+              متن پیام اینجا وارد میشود که میتواند به متن بلند برای مثال لورم ایپسوم یک متن ساختگی
+              هست برای کارهای گرافیکی
             </p>
             <div className="flex flex-row items-center">
               <div className="flex">
@@ -268,8 +253,8 @@ export const ProductPage = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="related-products" className="mt-4 p-4 b rounded-lg">
-          <div className="dir-rtl text-right text-primary">
+        <TabsContent value="related-products" className="b mt-4 rounded-lg p-4">
+          <div className="dir-rtl text-primary text-right">
             <p>لیست محصولات مرتبط در این بخش قرار می‌گیرد.</p>
           </div>
         </TabsContent>

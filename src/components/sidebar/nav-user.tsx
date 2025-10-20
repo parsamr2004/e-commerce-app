@@ -15,14 +15,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
+import { ChevronsUpDown, LogOut, LucideUserPen } from "lucide-react";
 import { Collapsible } from "@radix-ui/react-collapsible";
 
 export interface User {
@@ -44,12 +37,7 @@ export interface NavUserProps {
   onLogoutClick?: () => void;
 }
 
-export function NavUser({
-  user,
-  isLogin,
-  guestMenu = [],
-  onLogoutClick,
-}: NavUserProps) {
+export function NavUser({ user, isLogin, guestMenu = [], onLogoutClick }: NavUserProps) {
   const { isMobile } = useSidebar();
 
   if (!isLogin && guestMenu.length > 0) {
@@ -91,7 +79,7 @@ export function NavUser({
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate text-right font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4 opacity-60" />
@@ -99,7 +87,7 @@ export function NavUser({
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg "
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -122,28 +110,13 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer">
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <Bell />
-                Notifications
+                <LucideUserPen />
+                پروفایل
               </DropdownMenuItem>
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={onLogoutClick}
-              className="cursor-pointer"
-            >
+            <DropdownMenuItem onClick={onLogoutClick} className="cursor-pointer">
               <LogOut />
               Log out
             </DropdownMenuItem>

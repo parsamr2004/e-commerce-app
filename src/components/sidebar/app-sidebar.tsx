@@ -12,18 +12,13 @@ import * as React from "react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavUser } from "@/components/sidebar/nav-user";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarRail,
-} from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarRail } from "@/components/ui/sidebar";
 import { ModeToggle } from "../darkmode/mode-toggle";
 
 const data = {
   users: {
     loggedIn: {
-      name: "mamadGholi",
+      name: "بوعذار عباس",
       email: "salam@gamil.com",
       avatar: "/avatars/shadcn.jpg",
     },
@@ -45,10 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const guestMenuWithActions = data.guestMenu.map((item) => ({
     ...item,
-    onClick:
-      item.id === "login"
-        ? () => setIsLogin(true)
-        : () => alert("Register clicked"),
+    onClick: item.id === "login" ? () => setIsLogin(true) : () => alert("Register clicked"),
   }));
 
   return (
