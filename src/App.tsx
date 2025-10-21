@@ -4,40 +4,23 @@ import ProductCard from "@/components/ProductCard";
 import useFavorites from "@/hooks/use-favorites";
 import useProducts from "./hooks/use-products";
 import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { Clock4, ShoppingBag, ShoppingCart, Star, Store } from "lucide-react";
+// Swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
 const App = () => {
   const navigate = useNavigate();
   const { data: products } = useProducts();
   const { toggleFavorite, isFavorite } = useFavorites();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [emblaApi, setEmblaApi] = useState<any>(null);
   const currentProduct = products?.[currentIndex];
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const onSelect = () => {
-      setCurrentIndex(emblaApi.selectedScrollSnap());
-    };
-
-    emblaApi.on("select", onSelect);
-    onSelect();
-
-    return () => {
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi]);
 
   return (
-    <section className="overflow-hidden">
-      <article className="flex gap-10">
+    <section className="overflow-x-hidden">
+      <article className="flex flex-wrap gap-6">
         <div className="grid max-w-lg flex-1 grid-cols-2 gap-4">
           {products?.slice(0, 4).map((product) => (
             <Link to={`/products/${product._id}`} key={product._id}>
@@ -50,25 +33,33 @@ const App = () => {
             </Link>
           ))}
         </div>
-        <div className="relative flex-1">
-          <Carousel dir="rtl" opts={{ align: "start", loop: true }} setApi={setEmblaApi}>
-            <CarouselContent className="">
-              {products?.map((product) => (
-                <CarouselItem key={product._id} className="">
+        <div className="flex-1">
+          <Swiper
+            modules={[Navigation]}
+            navigation
+            spaceBetween={4}
+            slidesPerView={1}
+            loop={true}
+            dir="rtl"
+            onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
+            onRealIndexChange={(swiper) => setCurrentIndex(swiper.realIndex)}
+            className="w-[700px] rounded-md"
+          >
+            {products?.map((product) => (
+              <SwiperSlide key={product._id}>
+                <div className="">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="h-80 w-full rounded-md object-cover"
+                    className="h-80 w-full rounded-md object-contain"
                   />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-            <CarouselPrevious className="absolute top-1/2 left-2 z-10 -translate-y-1/2 transform" />
-            <CarouselNext className="absolute top-1/2 right-2 -translate-y-1/2 transform" />
-          </Carousel>
           {currentProduct && (
-            <div className="mt-4 flex justify-between gap-2 rounded-md p-4">
+            <div className="mt-4 flex justify-between gap-2 p-4">
               <div className="flex-1 space-y-2 py-3">
                 <h3 className="text-lg font-bold">{currentProduct.name}</h3>
                 <p className="py-3 pl-4 text-left font-semibold">
