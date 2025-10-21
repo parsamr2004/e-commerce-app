@@ -1,5 +1,5 @@
 import Stepper from "@/components/Stepper";
-import { useLocation, Outlet } from "react-router-dom";
+import { useLocation, Outlet } from "react-router";
 
 const ShoppingProgress = () => {
   const location = useLocation();
