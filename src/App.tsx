@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import ProductCard from "@/components/ProductCard";
 import useFavorites from "@/hooks/use-favorites";
 import useProducts from "./hooks/use-products";
@@ -40,12 +40,14 @@ const App = () => {
       <article className="flex gap-10">
         <div className="grid max-w-lg flex-1 grid-cols-2 gap-4">
           {products?.slice(0, 4).map((product) => (
-            <ProductCard
-              key={product._id}
-              product={product}
-              toggleFavorite={toggleFavorite}
-              isFavorite={isFavorite(product._id)}
-            />
+            <Link to={`/products/${product._id}`} key={product._id}>
+              <ProductCard
+                key={product._id}
+                product={product}
+                toggleFavorite={toggleFavorite}
+                isFavorite={isFavorite(product._id)}
+              />
+            </Link>
           ))}
         </div>
         <div className="relative flex-1">
@@ -120,12 +122,14 @@ const App = () => {
         </div>
         <div className="grid grid-cols-4 grid-rows-2 gap-4">
           {products?.slice(0, 4).map((product) => (
-            <ProductCard
-              key={product._id}
-              product={product}
-              toggleFavorite={toggleFavorite}
-              isFavorite={isFavorite(product._id)}
-            />
+            <Link to={`/products/${product._id}`} key={product._id}>
+              <ProductCard
+                key={product._id}
+                product={product}
+                toggleFavorite={toggleFavorite}
+                isFavorite={isFavorite(product._id)}
+              />
+            </Link>
           ))}
         </div>
       </div>
