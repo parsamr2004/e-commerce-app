@@ -28,9 +28,6 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 
-// ============================
-// منوهای کاربر مهمان و کاربر عادی
-// ============================
 const guestMenu = [
   { title: "ورود", icon: LucideLogIn, href: "/login" },
   { title: "ثبت‌ نام", icon: LucideUserPlus, href: "/register" },
