@@ -4,7 +4,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import ShopCard from "@/components/ShopCard";
 import useCategory from "@/hooks/use_category";
 import { useState } from "react";
-import { useFilteredProducts } from "@/hooks/use-product-filter";import { Link } from "react-router";
+import { useFilteredProducts } from "@/hooks/use-product-filter";
+import { Link } from "react-router";
+import useFavorites from "@/hooks/use-favorites";
+
 interface RadioItemType {
   valueItem: string;
   textItem: string;
@@ -42,6 +45,7 @@ const RadioItem = (props: RadioItemType) => {
 
 const ShopPage = () => {
   // const { data: products } = useProducts();
+  const { toggleFavorite, isFavorite } = useFavorites();
   const { data: categories } = useCategory();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000000]);
@@ -113,6 +117,8 @@ const ShopPage = () => {
               key={product._id}
               product={product}
               categoryName={category_map[product.category]}
+              toggleFavorite={toggleFavorite}
+              isFavorite={isFavorite(product._id)}
             />
           ))
         )}

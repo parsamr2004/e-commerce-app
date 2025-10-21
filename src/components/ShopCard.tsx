@@ -7,22 +7,35 @@ import { Label } from "./ui/label";
 interface ProductCardProp {
   product: Product;
   categoryName: string;
+  toggleFavorite: (product: Product) => void;
+  isFavorite: boolean;
 }
 
 const ShopCard = (props: ProductCardProp) => {
-  const { product, categoryName } = props;
+  const { product, categoryName, toggleFavorite, isFavorite } = props;
   const productTitle = product.name;
   const productCategory = categoryName || "";
   const productPrice = product.price || 0;
   const productDescription = product.description;
   const ProductImg = product.image;
+
   return (
     <Card className="rounded-4 mt-4 mr-4 flex max-h-[340px] max-w-[328px] flex-col justify-between overflow-hidden py-0">
       {/* Top section (image + category tag) */}
       <CardContent className="relative h-[170px] overflow-hidden border-red-500 p-0">
         <img src={ProductImg} alt={productTitle} className="absolute inset-0 w-full object-cover" />
-        <Button size="icon" variant="ghost" className="absolute top-2.5 right-5">
-          <LucideHeart className="text-shadow-secondary-foreground" />
+        <Button
+          className={`absolute top-2 right-2 ${
+            isFavorite
+              ? "[&_.lucide-heart]:text-muted [&_.lucide-heart]:fill-muted"
+              : "text-background"
+          }`}
+          size="icon"
+          variant="default"
+          aria-label="Favorite"
+          onClick={() => toggleFavorite(product)}
+        >
+          <LucideHeart />
         </Button>
         <Label className="absolute right-4 bottom-3 rounded-2xl bg-[var(--primary-dark)] px-2.5 py-0.5 font-light text-white">
           {productCategory}
