@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { useShippingStore } from "@/stores/use-Shipping-Info-Store.ts";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useNavigate } from "react-router";
 
 const ShoppingProgressForm = () => {
