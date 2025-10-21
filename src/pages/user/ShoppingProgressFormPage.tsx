@@ -1,15 +1,37 @@
-import Stepper from "@/components/Stepper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+import { useShippingStore } from "@/stores/use-Shipping-Info-Store.ts";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const ShoppingProgressForm = () => {
+  const { shippingData, updateShippingField } = useShippingStore();
+  const navigate = useNavigate();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    updateShippingField(name, value);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const { address, city, country, postalCode, paymentMethod } = shippingData;
+
+    if (!address || !city || !country || !postalCode || !paymentMethod) {
+      toast.error("لطفاً تمام فیلدها را  پر کنید");
+      return;
+    }
+
+    navigate("/shopping-progress/summary");
+  };
+
   return (
     <>
-      <Stepper />
-      <div className="mt-40 mr-105 flex justify-between gap-10">
-        <form action="">
+      <div className="mt-40 mr-40 flex justify-between gap-10">
+        <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-5">
             <span className="text-2xl font-bold">آدرس دریافت</span>
             <div className="flex flex-col gap-3">
@@ -18,6 +40,10 @@ const ShoppingProgressForm = () => {
                 className="w-full min-[1120px]:w-[530px]"
                 placeholder="آدرس را وارد نمایید"
                 type="text"
+                name="address"
+                id="address"
+                value={shippingData.address}
+                onChange={handleChange}
               ></Input>
             </div>
             <div className="flex flex-col gap-3">
@@ -26,6 +52,10 @@ const ShoppingProgressForm = () => {
                 className="w-full min-[1120px]:w-[530px]"
                 placeholder="شهر را وارد نمایید"
                 type="text"
+                name="city"
+                id="city"
+                value={shippingData.city}
+                onChange={handleChange}
               ></Input>
             </div>
             <div className="flex flex-col gap-3">
@@ -34,6 +64,10 @@ const ShoppingProgressForm = () => {
                 className="w-full min-[1120px]:w-[530px]"
                 placeholder="کشور را وارد نمایید"
                 type="text"
+                name="country"
+                id="country"
+                value={shippingData.country}
+                onChange={handleChange}
               ></Input>
             </div>
             <div className="flex flex-col gap-3">
@@ -42,21 +76,38 @@ const ShoppingProgressForm = () => {
                 className="w-full min-[1120px]:w-[530px]"
                 placeholder="کد پستی را وارد نمایید"
                 type="text"
+                name="postalCode"
+                id="postalCode"
+                value={shippingData.postalCode}
+                onChange={handleChange}
               ></Input>
             </div>
-            <p className="bg-[var( --muted-foreground)] text-sm">روش پرداخت</p>
-            <RadioGroup>
-              <div className="flex items-center justify-end gap-3">
-                <Label htmlFor="bank">درگاه پرداخت پاسارگاد</Label>
-
-                <RadioGroupItem
-                  value="pay"
-                  className="relative h-4 w-4 rounded-full border border-[var(--border)] after:absolute after:top-1/2 after:left-1/2 after:h-2 after:w-2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-[var(--primary)] after:content-[''] data-[state=unchecked]:after:hidden"
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="payment" className="text-[var( --muted-foreground)] mb-4 text-sm">
+                روش پرداخت
+              </label>
+              <label className="flex cursor-pointer items-center gap-2">
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="pasargad"
+                  checked={shippingData.paymentMethod === "pasargad"}
+                  onChange={handleChange}
+                  className="hidden"
                 />
-              </div>
-            </RadioGroup>
+                <div className="h-3 w-3 rounded-full bg-[var(--primary)]" />
+                <p className="text-xs">درگاه پرداخت پاسارگاد</p>
+              </label>
+            </div>
 
-            <Button className="w-full rounded-[var(--radius)]">ادامه</Button>
+            <Button
+              type="submit"
+              variant="default"
+              size="lg"
+              className="w-full rounded-[var(--radius)]"
+            >
+              ادامه
+            </Button>
           </div>
         </form>
       </div>
