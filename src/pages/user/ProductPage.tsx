@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import useGetSingleProduct from "@/hooks/use-get-single-prodcts";
 import {
-  Heart,
+  LucideHeart,
   LucideBackpack,
   LucideClock,
   LucideShoppingCart,
@@ -22,13 +22,13 @@ import {
   LucideStore,
   ShoppingCart,
 } from "lucide-react";
-import { useState } from "react";
 import { useParams } from "react-router";
+import useFavorites from "@/hooks/use-favorites";
 
 export const ProductPage = () => {
-  const [isWishlist, setIsWishlist] = useState(false);
   const { id } = useParams();
   const { data: product, isLoading, error } = useGetSingleProduct(id);
+  const { toggleFavorite, isFavorite } = useFavorites();
 
   if (!id) return <div>Invalid Product ID</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -151,8 +151,18 @@ export const ProductPage = () => {
 
         {/* favorite */}
         <div className="flex w-[10%] items-start justify-end">
-          <Button variant="ghost" size="icon" onClick={() => setIsWishlist(!isWishlist)}>
-            <Heart className={`h-5 w-5 ${isWishlist ? "fill-current text-red-500" : ""}`} />
+          <Button
+            className={`transition-all ${
+              isFavorite(product._id)
+                ? "[&_.lucide-heart]:fill-muted [&_.lucide-heart]:text-muted"
+                : "text-background"
+            }`}
+            size="icon"
+            variant="default"
+            aria-label="Favorite"
+            onClick={() => toggleFavorite(product)}
+          >
+            <LucideHeart />
           </Button>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import useFavorites from "@/hooks/use-favorites";
 import ProductCard from "@/components/ProductCard";
+import { Link } from "react-router";
 
 const FavoritesPage = () => {
   const { favorites, toggleFavorite } = useFavorites();
@@ -13,7 +14,9 @@ const FavoritesPage = () => {
             key={product._id}
             className="[&_.lucide-heart]:text-muted [&_.lucide-heart]:fill-muted"
           >
-            <ProductCard product={product} toggleFavorite={toggleFavorite} isFavorite={true} />
+            <Link to={`/products/${product._id}`} key={product._id}>
+              <ProductCard product={product} toggleFavorite={toggleFavorite} isFavorite={true} />
+            </Link>
           </div>
         ))}
       </div>

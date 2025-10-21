@@ -121,7 +121,7 @@ const App = () => {
           <Button onClick={() => navigate("/shop")}>فروشگاه</Button>
         </div>
         <div className="grid grid-cols-4 grid-rows-2 gap-4">
-          {products?.slice(0, 4).map((product) => (
+          {products?.map((product) => (
             <Link to={`/products/${product._id}`} key={product._id}>
               <ProductCard
                 key={product._id}
