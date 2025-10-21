@@ -13,6 +13,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import useGetSingleProduct from "@/hooks/use-get-single-prodcts";
+import useCartStore from "@/stores/use-cart-store";
 import {
   Heart,
   LucideBackpack,
@@ -29,6 +30,7 @@ export const ProductPage = () => {
   const [isWishlist, setIsWishlist] = useState(false);
   const { id } = useParams();
   const { data: product, isLoading, error } = useGetSingleProduct(id);
+  const { addToCart, updateQuantity } = useCartStore();
 
   if (!id) return <div>Invalid Product ID</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -124,24 +126,16 @@ export const ProductPage = () => {
                 <div className="mr-2 text-sm">{product.reviews.length} نظر</div>
               </div>
 
-              <Select>
-                <SelectTrigger className="border-input w-[96px] cursor-pointer shadow-none">
-                  <SelectValue placeholder="1" />
-                </SelectTrigger>
-                <SelectContent
-                  side="right"
-                  className="w-[var(--radix-select-trigger-width)] cursor-pointer"
-                >
-                  <SelectItem value="1">1</SelectItem>
-                  <SelectItem value="2">2</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                </SelectContent>
-              </Select>
+              
             </div>
 
             <br />
             <div className="mt-auto w-2/5">
-              <Button className="bg-primary w-full cursor-pointer" size="lg">
+              <Button
+                className="bg-primary w-full cursor-pointer"
+                size="lg"
+                onClick={() => addToCart(product)}
+              >
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 افزودن به سبد خرید
               </Button>

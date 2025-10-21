@@ -15,4 +15,5 @@ export type Product = {
   reviews?: Review[];
   createdAt: string;
   updatedAt: string;
+  countInBasket?: number;
 };
