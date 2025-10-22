@@ -16,6 +16,8 @@ import ShoppingProgress from "./pages/user/ShoppingProgress";
 import ShoppingProgressForm from "./pages/user/ShoppingProgressFormPage";
 import ShoppingProgressListPage from "./pages/user/ShoppingProgressListPage";
 import ErrorPage from "./pages/ErrorPage";
+import CheckoutPage from "./pages/user/CheckoutPage";
+import DetailsPage from "./pages/user/DetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +77,14 @@ const router = createBrowserRouter([
             children: [
               { path: "address", Component: ShoppingProgressForm },
               { path: "summary", Component: ShoppingProgressListPage },
+            ],
+          },
+          { path: "checkout", Component: CheckoutPage },
+          {
+            path: "orders",
+            children: [
+              { index: true, Component: UserOrdersPage },
+              { path: ":id", Component: DetailsPage },
             ],
           },
         ],
