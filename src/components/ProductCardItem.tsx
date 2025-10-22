@@ -23,11 +23,11 @@ const ProductCardItem = ({ cartItem }: ProductCardItemprops) => {
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-5">
         <div className="h-[88px] w-[88px]">
-          <img src={image} alt="" />
+          <img src={image} className="h-[88px] w-[88px] object-cover" alt="" />
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-primary">{name}</span>
-          <span className="font-bold">{price} تومان</span>
+          <span className="font-bold">{price.toLocaleString()} تومان</span>
         </div>
       </div>
       <div>

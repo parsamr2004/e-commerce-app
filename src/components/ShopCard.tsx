@@ -3,6 +3,8 @@ import { LucideArrowLeft, LucideHeart, ShoppingBasket } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "./ui/card";
 import { Label } from "./ui/label";
+import { Link } from "react-router";
+import useCartStore from "@/stores/use-cart-store";
 
 interface ProductCardProp {
   product: Product;
@@ -18,6 +20,7 @@ const ShopCard = (props: ProductCardProp) => {
   const productPrice = product.price || 0;
   const productDescription = product.description;
   const ProductImg = product.image;
+  const { addToCart, updateQuantity } = useCartStore();
 
   return (
     <Card className="rounded-4 mt-4 mr-4 flex max-h-[340px] max-w-[328px] flex-col justify-between overflow-hidden py-0">
@@ -59,11 +62,15 @@ const ShopCard = (props: ProductCardProp) => {
 
         {/* Footer (button + icon) */}
         <CardFooter className="flex items-center justify-between px-0 pt-4">
-          <Button className="bg-primary">
-            <span>مشاهده بیشتر</span>
+          <Button className="bg-primary cursor-pointer">
+            <Link to={`/products/${product._id}`}>
+              <span>مشاهده بیشتر</span>
+            </Link>
             <LucideArrowLeft className="ml-1" />
           </Button>
-          <ShoppingBasket />
+          <button onClick={() => {addToCart(product); updateQuantity(product._id, 1)}} className="cursor-pointer">
+            <ShoppingBasket />
+          </button>
         </CardFooter>
       </CardContent>
     </Card>

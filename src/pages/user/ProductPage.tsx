@@ -132,7 +132,7 @@ export const ProductPage = () => {
               <Button
                 className="bg-primary w-full cursor-pointer"
                 size="lg"
-                onClick={() => addToCart(product)}
+                onClick={() => {addToCart(product); updateQuantity(id, 1)}}
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 افزودن به سبد خرید
