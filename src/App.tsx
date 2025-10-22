@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import ProductCard from "@/components/ProductCard";
 import useFavorites from "@/hooks/use-favorites";
 import useProducts from "./hooks/use-products";
 import { Button } from "@/components/ui/button";
 import { Clock4, ShoppingBag, ShoppingCart, Star, Store } from "lucide-react";
-// Swiper
+import { formatDistanceToNow } from "date-fns";
+import { faIR } from "date-fns/locale";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -13,10 +14,13 @@ import "swiper/css/navigation";
 
 const App = () => {
   const navigate = useNavigate();
-  const { data: products } = useProducts();
+  const { data: products, isLoading, error } = useProducts();
   const { toggleFavorite, isFavorite } = useFavorites();
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentProduct = products?.[currentIndex];
+
+  if (isLoading) return <div>اطلاعات در حال بارگذاری میباشد، لطفا منتظر بمانید...</div>;
+  if (error) return <div>Error loading product</div>;
 
   return (
     <section className="overflow-x-hidden">
@@ -63,7 +67,7 @@ const App = () => {
               <div className="flex-1 space-y-2 py-3">
                 <h3 className="text-lg font-bold">{currentProduct.name}</h3>
                 <p className="py-3 pl-4 text-left font-semibold">
-                  {currentProduct.price.toLocaleString()} تومان
+                  {Math.round(currentProduct.price).toLocaleString()} تومان
                 </p>
                 <p className="line-clamp-2 max-w-md text-sm">{currentProduct.description}</p>
               </div>
@@ -72,7 +76,7 @@ const App = () => {
                 <div className="flex items-center gap-2 py-3">
                   <Star className="h-4 w-4" />
                   <span className="text-muted-foreground">امتیاز:</span>
-                  <span>{currentProduct.rating}</span>
+                  <span>{Math.round(currentProduct.rating)}</span>
                 </div>
                 <div className="flex items-center gap-2 py-3">
                   <ShoppingCart className="h-4 w-4" />
@@ -94,7 +98,12 @@ const App = () => {
                 <div className="flex items-center gap-2 py-3">
                   <Clock4 className="h-4 w-4" />
                   <span className="text-muted-foreground">آخرین بروزرسانی:</span>
-                  <span>{new Date(currentProduct.updatedAt).toLocaleString()}</span>
+                  <span>
+                    {formatDistanceToNow(new Date(currentProduct.updatedAt), {
+                      addSuffix: true,
+                      locale: faIR,
+                    })}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 py-3">
                   <Star className="h-4 w-4"></Star>

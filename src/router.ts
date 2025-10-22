@@ -15,6 +15,7 @@ import { Dashboard } from "./pages/admin/Dashboard";
 import ShoppingProgress from "./pages/user/ShoppingProgress";
 import ShoppingProgressForm from "./pages/user/ShoppingProgressFormPage";
 import ShoppingProgressListPage from "./pages/user/ShoppingProgressListPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
             ],
           },
         ],
+      },
+      {
+        path: "*",
+        Component: ErrorPage,
       },
     ],
   },
