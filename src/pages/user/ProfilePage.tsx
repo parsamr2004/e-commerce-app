@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUpdateProfile from "@/hooks/use-profile";
 import { useProfile } from "@/hooks/use-profile";
+import { toast } from "sonner";
 import type { ProfilePayload } from "@/types/profile.model";
 
 const ProfilePage = () => {
@@ -29,20 +30,20 @@ const ProfilePage = () => {
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("رمز عبور و تکرار آن مطابقت ندارد");
+      toast.error("رمز عبور و تکرار آن مطابقت ندارد");
       return;
     }
     const formValue: ProfilePayload = { username: username, email, password };
     updateProfile(formValue, {
       onSuccess: () => {
-        alert("پروفایل با موفقیت بروزرسانی شد!");
+        toast("پروفایل با موفقیت بروزرسانی شد!");
         setUserName("");
         setEmail("");
         setPassword("");
         setConfirmPassword("");
       },
       onError: (error: any) => {
-        alert("خطا در بروزرسانی پروفایل: " + (error.message || "مشکل نامشخص"));
+        toast.error("خطا در بروزرسانی پروفایل: " + (error.message || "مشکل نامشخص"));
       },
     });
   };
