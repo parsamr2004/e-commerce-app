@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import useUpdateProfile from "@/hooks/use-update-profile";
+import type { ProfilePayload } from "@/types/profile.model";
 
 const ProfilePage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { mutate: updateProfile, isLoading } = useUpdateProfile() as any;
+
   const orderNavigat = useNavigate();
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,37 +21,40 @@ const ProfilePage = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-  const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
   };
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formvalue = { name, email, password, confirmPassword };
-    console.log(formvalue);
-    alert("اطلاعات شما به روزرسانی شد.");
-    setName("");
-    setPassword("");
-    setEmail("");
-    setConfirmPassword("");
+    if (password !== confirmPassword) {
+      alert("رمز عبور و تکرار آن مطابقت ندارد");
+      return;
+    }
+    const formValue: ProfilePayload = { username: name, email, password };
+    updateProfile(formValue, {
+      onSuccess: () => {
+        alert("پروفایل با موفقیت بروزرسانی شد!");
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      },
+      onError: (error: any) => {
+        alert("خطا در بروزرسانی پروفایل: " + (error.message || "مشکل نامشخص"));
+      },
+    });
   };
   const handleMyOrderNavigate = () => {
     orderNavigat("/MyOrders");
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <form
-        onSubmit={submitForm}
-        className="w-full max-w-[640px] rounded-2xl p-8 space-y-5 border"
-      >
-        <h2 className="text-xl font-bold text-foreground mb-6 text-right">
-          بروزرسانی پروفایل
-        </h2>
+    <div className="flex min-h-screen items-center justify-center">
+      <form onSubmit={submitForm} className="w-full max-w-[640px] space-y-5 rounded-2xl border p-8">
+        <h2 className="text-foreground mb-6 text-right text-xl font-bold">بروزرسانی پروفایل</h2>
 
         <div>
-          <label htmlFor="name" className="block text-foreground mb-2 text-sm">
+          <label htmlFor="name" className="text-foreground mb-2 block text-sm">
             نام
           </label>
           <input
@@ -57,12 +64,12 @@ const ProfilePage = () => {
             value={name}
             onChange={handleNameChange}
             placeholder="نام خود را وارد نمایید"
-            className="w-full border border-input bg-card px-3 py-2 focus:outline-none rounded-md placeholder:text-secoundry"
+            className="border-input bg-card placeholder:text-secoundry w-full rounded-md border px-3 py-2 focus:outline-none"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-foreground mb-2 text-sm">
+          <label htmlFor="email" className="text-foreground mb-2 block text-sm">
             ایمیل
           </label>
           <input
@@ -72,15 +79,12 @@ const ProfilePage = () => {
             value={email}
             onChange={handleEmailChange}
             placeholder="ایمیل خود را وارد نمایید"
-            className="w-full border border-input bg-card px-3 py-2 focus:outline-none rounded-md placeholder:text-secoundry"
+            className="border-input bg-card placeholder:text-secoundry w-full rounded-md border px-3 py-2 focus:outline-none"
           />
         </div>
 
         <div>
-          <label
-            htmlFor="password"
-            className="block text-foreground mb-2 text-sm"
-          >
+          <label htmlFor="password" className="text-foreground mb-2 block text-sm">
             رمزعبور
           </label>
           <input
@@ -90,15 +94,12 @@ const ProfilePage = () => {
             value={password}
             onChange={handlePasswordChange}
             placeholder="رمزعبور خود را وارد نمایید"
-            className="w-full border border-input bg-card px-3 py-2 focus:outline-none rounded-md placeholder:text-secoundry"
+            className="border-input bg-card placeholder:text-secoundry w-full rounded-md border px-3 py-2 focus:outline-none"
           />
         </div>
 
         <div>
-          <label
-            htmlFor="confirmPassword"
-            className="block text-foreground mb-2 text-sm"
-          >
+          <label htmlFor="confirmPassword" className="text-foreground mb-2 block text-sm">
             تکرار رمزعبور
           </label>
           <input
@@ -108,20 +109,21 @@ const ProfilePage = () => {
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             placeholder="تکرار رمزعبور خود را وارد نمایید"
-            className="w-full border border-input bg-card px-3 py-2 focus:outline-none rounded-md placeholder:text-secoundry"
+            className="border-input bg-card placeholder:text-secoundry w-full rounded-md border px-3 py-2 focus:outline-none"
           />
         </div>
 
-        <div className="flex justify-between mt-6">
+        <div className="mt-6 flex justify-between">
           <button
             type="submit"
-            className="bg-primary text-primary-foreground px-6 py-2 rounded-xl transition-colors"
+            className="bg-primary text-primary-foreground rounded-xl px-6 py-2 transition-colors"
+            disabled={isLoading}
           >
             بروزرسانی
           </button>
           <button
             type="button"
-            className="bg-primary text-primary-foreground px-6 py-2 rounded-xl transition-colors"
+            className="bg-primary text-primary-foreground rounded-xl px-6 py-2 transition-colors"
             onClick={handleMyOrderNavigate}
           >
             سفارشات من
