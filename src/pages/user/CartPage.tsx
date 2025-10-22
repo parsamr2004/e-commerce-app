@@ -30,7 +30,7 @@ const CartPage = () => {
         <Button
           className="cursor-pointer self-start rounded-2xl px-50"
           onClick={() => {
-            navigate("/shopping-progress");
+            navigate("/shopping-progress/address");
           }}
         >
           تکمیل خرید

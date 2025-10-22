@@ -37,12 +37,3 @@ export type OrderResponseModel = {
   paymentMethod: string;
   shippingAddress: ShippingAddress;
 };
-
-
-
-
-
-
-
-
-
