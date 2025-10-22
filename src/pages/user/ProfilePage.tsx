@@ -1,19 +1,21 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import useUpdateProfile from "@/hooks/use-update-profile";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useUpdateProfile from "@/hooks/use-profile";
+import { useProfile } from "@/hooks/use-profile";
 import type { ProfilePayload } from "@/types/profile.model";
 
 const ProfilePage = () => {
-  const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { mutate: updateProfile, isLoading } = useUpdateProfile() as any;
+  const { data: profile } = useProfile();
+  const navigate = useNavigate();
+  console.log(profile);
 
-  const orderNavigat = useNavigate();
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
   };
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -30,11 +32,11 @@ const ProfilePage = () => {
       alert("رمز عبور و تکرار آن مطابقت ندارد");
       return;
     }
-    const formValue: ProfilePayload = { username: name, email, password };
+    const formValue: ProfilePayload = { username: username, email, password };
     updateProfile(formValue, {
       onSuccess: () => {
         alert("پروفایل با موفقیت بروزرسانی شد!");
-        setName("");
+        setUserName("");
         setEmail("");
         setPassword("");
         setConfirmPassword("");
@@ -45,9 +47,15 @@ const ProfilePage = () => {
     });
   };
   const handleMyOrderNavigate = () => {
-    orderNavigat("/MyOrders");
+    navigate("/MyOrders");
   };
-
+  useEffect(() => {
+    if (profile) {
+      console.log(profile);
+      setUserName(profile.username || "");
+      setEmail(profile.email || "");
+    }
+  }, [profile]);
   return (
     <div className="flex min-h-screen items-center justify-center">
       <form onSubmit={submitForm} className="w-full max-w-[640px] space-y-5 rounded-2xl border p-8">
@@ -55,15 +63,15 @@ const ProfilePage = () => {
 
         <div>
           <label htmlFor="name" className="text-foreground mb-2 block text-sm">
-            نام
+            نام کاربری
           </label>
           <input
             type="text"
             name="name"
             id="name"
-            value={name}
-            onChange={handleNameChange}
-            placeholder="نام خود را وارد نمایید"
+            value={username}
+            onChange={handleUserNameChange}
+            placeholder={profile?.username}
             className="border-input bg-card placeholder:text-secoundry w-full rounded-md border px-3 py-2 focus:outline-none"
           />
         </div>
@@ -78,7 +86,7 @@ const ProfilePage = () => {
             id="email"
             value={email}
             onChange={handleEmailChange}
-            placeholder="ایمیل خود را وارد نمایید"
+            placeholder={profile?.email}
             className="border-input bg-card placeholder:text-secoundry w-full rounded-md border px-3 py-2 focus:outline-none"
           />
         </div>
