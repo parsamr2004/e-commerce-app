@@ -5,7 +5,6 @@ import ShopCard from "@/components/ShopCard";
 import useCategory from "@/hooks/use_category";
 import { useState } from "react";
 import { useFilteredProducts } from "@/hooks/use-product-filter";
-import { Link } from "react-router";
 import useFavorites from "@/hooks/use-favorites";
 
 interface RadioItemType {
