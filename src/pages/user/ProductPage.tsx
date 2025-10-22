@@ -1,5 +1,6 @@
 "use client";
 
+import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { RatingStar } from "@/components/ui/rating-star";
@@ -12,8 +13,11 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import useGetSingleProduct from "@/hooks/use-get-single-prodcts";
+import useProducts from "@/hooks/use-products";
+import useCartStore from "@/stores/use-cart-store";
 import {
-  Heart,
+  LucideHeart,
   LucideBackpack,
   LucideClock,
   LucideShoppingCart,
@@ -21,68 +25,45 @@ import {
   LucideStore,
   ShoppingCart,
 } from "lucide-react";
-import { useState } from "react";
-
-const product = {
-  id: "1",
-  name: "Apple MacBook Air M2",
-  brand: "iphone",
-  price: 10000,
-  rating: 4.5,
-  count: 25,
-  inventory: 34,
-  reviews: 128,
-  lastUpdate: 1,
-  image: "",
-  description: "مک بوک ایر با تراشه M2 دارای صفحه نمایش 13.6 اینچی رتینا است.",
-  features: [
-    "ارتقاء وب‌کم از ۷۲۰p به ۱۰۸۰p برای کیفیت بهتر مکالمات تصویری",
-    " قابلیت اتصال به یک نمایشگر خارجی با وضوح ۶K را دارد. ",
-    "دارای دو پورت USB-C 4/Thunderbolt 3، شارژر MagSafe 3 و جک هدفون است.",
-    "وزن سبک ۱.۲۴ کیلوگرمی دارد.",
-  ],
-  warranty: "پنج سال گارانتی سازگار",
-};
+import { Link, useParams } from "react-router";
+import useFavorites from "@/hooks/use-favorites";
 
 export const ProductPage = () => {
-  const [isWishlist, setIsWishlist] = useState(false);
+  const { id } = useParams();
+  const { data: product, isLoading, error } = useGetSingleProduct(id);
+  const { toggleFavorite, isFavorite } = useFavorites();
+  const { data: products } = useProducts();
+  const { addToCart, updateQuantity } = useCartStore();
+
+  if (!id) return <div>Invalid Product ID</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading product</div>;
 
   return (
-    <div className="flex flex-col w-full h-full py-6 px-3">
-      <div className="flex flex-row h-3/ w-full  items-stretch  gap-5">
-        <div className="w-full h-full bg-amber-500 flex items-center justify-center rounded-3xl overflow-hidden">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="max-w-full max-h-full object-contain"
-          />
+    <div className="flex h-full w-full flex-col px-3 py-6">
+      <div className="flex h-2/3 w-full flex-row items-stretch gap-5">
+        <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-3xl">
+          <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
         </div>
+
         {/* main */}
-        <div className="flex flex-col h-full  w-full ">
-          <CardContent className="w-full flex flex-col h-full ">
+        <div className="flex h-full min-h-2/3 w-full flex-col">
+          <CardContent className="flex h-full w-full flex-col">
             <div className="mb-4 flex flex-col">
+              <br />
               <div className="flex flex-row justify-between">
                 <h2 className="text-2xl font-bold">{product.name}</h2>
               </div>
-
-              <div className="w-full flex flex-row justify-between">
-                <p></p>
-              </div>
-
               <br />
               <p className="mb-6">{product.description}</p>
-              <br />
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl font-bold ">
-                  {product.price} تومان
-                </span>
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-3xl font-bold">{product.price.toLocaleString()} تومان</span>
               </div>
             </div>
 
             {/* details */}
-
             <div className="flex flex-col justify-center">
-              <div className="flex flex-row justify-between ">
+              <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center">
                   <LucideStar className="fill-black dark:fill-white" />
                   <p className="pr-1">امتیاز :</p>
@@ -91,7 +72,7 @@ export const ProductPage = () => {
                 <div className="flex flex-row items-center">
                   <LucideStore />
                   <p className="pr-1">برند :</p>
-                  <span className="p-1">{product.brand}</span>
+                  <span className="p-1">{product.name}</span>
                 </div>
               </div>
               <br />
@@ -99,12 +80,14 @@ export const ProductPage = () => {
                 <div className="flex flex-row items-center">
                   <LucideShoppingCart />
                   <p className="pr-1">تعداد :</p>
-                  <span className="p-1">{product.count}</span>
+                  <span className="p-1">{product.quantity}</span>
                 </div>
                 <div className="flex flex-row items-center">
                   <LucideClock />
-                  <p className="pr-1">زمان بروزرسانی :</p>
-                  <span className="p-1">{product.lastUpdate} minute ago</span>
+                  <p className="pr-1">آخرین بروزرسانی :</p>
+                  <span className="p-1">
+                    {new Date(product.updatedAt).toLocaleDateString("fa-IR")}
+                  </span>
                 </div>
               </div>
               <br />
@@ -112,168 +95,175 @@ export const ProductPage = () => {
                 <div className="flex flex-row items-center">
                   <LucideBackpack />
                   <p className="pr-1">موجودی :</p>
-                  <span className="p-1">{product.inventory}</span>
+                  <span className="p-1">{product.countInStock}</span>
                 </div>
                 <div className="flex flex-row items-center">
                   <LucideStar className="fill-black dark:fill-white" />
                   <p className="pr-1">نظرات :</p>
-                  <span className="p-1">{product.reviews}</span>
+                  <span className="p-1">{product.reviews.length}</span>
                 </div>
               </div>
             </div>
+
             <br />
-            <div className="flex items-center mb-4 flex-row justify-between">
-              <div className="flex flex-row items-center dir-rtl">
+            <div className="mb-4 flex flex-row items-center justify-between">
+              <div className="dir-rtl flex flex-row items-center">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => {
                     const rating = product.rating;
                     const starIndex = i + 1;
 
                     let fillPercentage = 0;
-
-                    if (starIndex <= Math.floor(rating)) {
-                      fillPercentage = 100;
-                    } else if (starIndex === Math.floor(rating) + 1) {
+                    if (starIndex <= Math.floor(rating)) fillPercentage = 100;
+                    else if (starIndex === Math.floor(rating) + 1)
                       fillPercentage = (rating % 1) * 100;
-                    }
 
-                    return (
-                      <RatingStar key={i} fillPercentage={fillPercentage} />
-                    );
+                    return <RatingStar key={i} fillPercentage={fillPercentage} />;
                   })}
                 </div>
-                <div className="mr-2 text-sm"> {product.reviews} نظر</div>
+                <div className="mr-2 text-sm">{product.reviews.length} نظر</div>
               </div>
-              <Select>
-                <SelectTrigger className="w-[96px] border-input shadow-none cursor-pointer">
-                  <SelectValue placeholder="1" />
-                </SelectTrigger>
-                <SelectContent
-                  side="left"
-                  className="cursor-pointer w-[var(--radix-select-trigger-width)]"
-                >
-                  <SelectItem value="1">1</SelectItem>
-                  <SelectItem value="2">2</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                </SelectContent>
-              </Select>
+
+              
             </div>
+
             <br />
-            <div className="mt-auto w-2/5 ">
-              <Button className="w-full bg-primary  cursor-pointer" size="lg">
-                <ShoppingCart className="mr-2 h-5 w-5 " />
+            <div className="mt-auto w-2/5">
+              <Button
+                className="bg-primary w-full cursor-pointer"
+                size="lg"
+                onClick={() => {addToCart(product); updateQuantity(id, 1)}}
+              >
+                <ShoppingCart className="mr-2 h-5 w-5" />
                 افزودن به سبد خرید
               </Button>
             </div>
           </CardContent>
         </div>
+
         {/* favorite */}
-        <div className="w-[10%] flex items-start justify-end">
+        <div className="flex w-[10%] items-start justify-end">
           <Button
-            variant="ghost"
+            className={`transition-all ${
+              isFavorite(product._id)
+                ? "[&_.lucide-heart]:fill-muted [&_.lucide-heart]:text-muted"
+                : "text-background"
+            }`}
             size="icon"
-            onClick={() => setIsWishlist(!isWishlist)}
+            variant="default"
+            aria-label="Favorite"
+            onClick={() => toggleFavorite(product)}
           >
-            <Heart
-              className={`h-5 w-5 ${
-                isWishlist ? "fill-current text-red-500" : ""
-              }`}
-            />
+            <LucideHeart />
           </Button>
         </div>
       </div>
       <br />
       <br />
-      <br />
-      {/* buttom */}
+      <div className="h-[400px] w-full items-center">
+        <Tabs
+          dir="rtl"
+          orientation="vertical"
+          defaultValue="submit-review"
+          className="flex h-full w-full flex-row rounded-lg"
+        >
+          {/* لیست تب‌ها */}
+          <TabsList className="flex h-1/2 w-1/6 flex-col items-stretch justify-between gap-2 rounded-r-lg border-l p-2">
+            <TabsTrigger value="submit-review">ثبت نظر</TabsTrigger>
+            <TabsTrigger value="view-reviews">مشاهده نظرات</TabsTrigger>
+            <TabsTrigger value="related-products">محصولات مرتبط</TabsTrigger>
+          </TabsList>
 
-      <Tabs
-        orientation="horizontal"
-        about="fill"
-        defaultValue="submit-review"
-        className="w-full max-w-lg mx-auto p-4  rounded-lg"
-      >
-        <TabsList className="grid w-full grid-cols-3 dir-rtl" dir="rtl">
-          <TabsTrigger value="submit-review">ثبت نظر</TabsTrigger>
-          <TabsTrigger value="view-reviews">مشاهده نظرات</TabsTrigger>
-          <TabsTrigger value="related-products">محصولات مرتبط</TabsTrigger>
-        </TabsList>
+          {/* محتوای تب‌ها */}
+          <div className="h-full w-full overflow-y-auto">
+            {/* ثبت نظر */}
+            <TabsContent value="submit-review" className="h-full justify-between">
+              <div className="dir-rtl space-y-4 p-3 text-right">
+                <label htmlFor="rating" className="block text-sm font-medium">
+                  امتیاز
+                </label>
+                <Select dir="rtl" name="rating">
+                  <SelectTrigger className="w-full text-right">
+                    <SelectValue placeholder="انتخاب امتیاز" />
+                  </SelectTrigger>
+                  <SelectContent className="dir-rtl text-right">
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="4">4</SelectItem>
+                    <SelectItem value="3">3</SelectItem>
+                    <SelectItem value="2">2</SelectItem>
+                    <SelectItem value="1">1</SelectItem>
+                  </SelectContent>
+                </Select>
 
-        <TabsContent value="submit-review" className="mt-4 p-4  rounded-lg">
-          <div className="space-y-4 dir-rtl text-right">
-            <label htmlFor="rating" className="block text-sm font-medium">
-              امتیاز
-            </label>
-            <Select dir="rtl" name="rating">
-              <SelectTrigger className="w-full text-right ">
-                <SelectValue placeholder="انتخاب امتیاز" />
-              </SelectTrigger>
-              <SelectContent className="dir-rtl text-right">
-                <SelectItem value="5">5</SelectItem>
-                <SelectItem value="4">4</SelectItem>
-                <SelectItem value="3">3</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="1">1</SelectItem>
-              </SelectContent>
-            </Select>
+                <label htmlFor="review" className="block pt-4 text-sm font-medium">
+                  نظر
+                </label>
+                <Textarea
+                  id="review"
+                  placeholder="نظر خود را وارد نمایید"
+                  className="h-[100px] resize-none text-right"
+                />
 
-            <label htmlFor="review" className="block pt-4 text-sm font-medium">
-              نظر
-            </label>
-            <Textarea
-              id="review"
-              placeholder="نظر خود را وارد نمایید"
-              className="min-h-[150px] text-right "
-            />
-
-            <div className="flex justify-end pt-4">
-              <Button
-                type="submit"
-                className=" bg-primary hover:bg-primary-foreground "
-              >
-                ثبت نظر
-              </Button>
-            </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="view-reviews" className="mt-4 p-4  rounded-lg">
-          <div className="bg-gray-100 p-6 rounded-lg my-4">
-            <div className="flex justify-between text-sm text-gray-600">
-              <span className="rtl:text-right">۱۴۰۲/۰۵/۲۱</span>
-              <span className="rtl:text-left">علی موسوی</span>
-            </div>
-            <p className="mt-4  text-gray-800">
-              متن پیام اینجا وارد میشود که میتواند به متن بلند برای مثال لورم
-              ایپسوم یک متن ساختگی هست برای کارهای گرافیکی
-            </p>
-            <div className="flex flex-row items-center">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => {
-                  const rating = product.rating;
-                  const starIndex = i + 1;
-
-                  let fillPercentage = 0;
-
-                  if (starIndex <= Math.floor(rating)) {
-                    fillPercentage = 100;
-                  } else if (starIndex === Math.floor(rating) + 1) {
-                    fillPercentage = (rating % 1) * 100;
-                  }
-
-                  return <RatingStar key={i} fillPercentage={fillPercentage} />;
-                })}
+                <div className="flex justify-end pt-4">
+                  <Button type="submit" className="bg-primary">
+                    ثبت نظر
+                  </Button>
+                </div>
               </div>
-            </div>
-          </div>
-        </TabsContent>
+            </TabsContent>
 
-        <TabsContent value="related-products" className="mt-4 p-4 b rounded-lg">
-          <div className="dir-rtl text-right text-primary">
-            <p>لیست محصولات مرتبط در این بخش قرار می‌گیرد.</p>
+            {/* مشاهده نظرات */}
+            <TabsContent value="view-reviews" className="h-full">
+              {product.reviews?.length === 0 ? (
+                <div className="flex h-full items-center justify-center p-6 text-center text-gray-600">
+                  هیچ نظری برای این محصول ثبت نشده است.
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {product.reviews?.map((rev) => (
+                    <div key={rev._id} className="rounded-lg bg-gray-100 p-6">
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span className="rtl:text-right">
+                          {new Date(rev.createdAt).toLocaleDateString("fa-IR")}
+                        </span>
+                        <span className="rtl:text-left">{rev.name}</span>
+                      </div>
+
+                      <p className="mt-4 text-gray-800">{rev.comment}</p>
+                      <br />
+
+                      <div className="flex flex-row items-center">
+                        <div className="flex">
+                          {[...Array(5)].map((_, i) => {
+                            const fill = i + 1 <= rev.rating ? 100 : 0;
+                            return <RatingStar key={i} fillPercentage={fill} />;
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            {/* محصولات مرتبط */}
+            <TabsContent value="related-products" className="h-full">
+              <div className="grid grid-cols-4 gap-4">
+                {products?.slice(0, 4).map((p) => (
+                  <Link to={`/products/${p._id}`} key={p._id}>
+                    <ProductCard
+                      key={p._id}
+                      product={p}
+                      toggleFavorite={() => {}}
+                      isFavorite={false}
+                    />
+                  </Link>
+                ))}
+              </div>
+            </TabsContent>
           </div>
-        </TabsContent>
-      </Tabs>
+        </Tabs>
+      </div>
     </div>
   );
 };

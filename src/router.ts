@@ -11,6 +11,11 @@ import ProfilePage from "./pages/user/ProfilePage";
 import UserOrdersPage from "./pages/user/UserOrdersPage";
 import CreateProductPage from "./pages/admin/CreateProductPage";
 import PrivateRoutes from "./PrivateRoutes";
+import { Dashboard } from "./pages/admin/Dashboard";
+import ShoppingProgress from "./pages/user/ShoppingProgress";
+import ShoppingProgressForm from "./pages/user/ShoppingProgressFormPage";
+import ShoppingProgressListPage from "./pages/user/ShoppingProgressListPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +43,10 @@ const router = createBrowserRouter([
         Component: ShopPage,
       },
       {
+        path: "dashboard",
+        Component: Dashboard,
+      },
+      {
         Component: PrivateRoutes,
         children: [
           {
@@ -60,7 +69,19 @@ const router = createBrowserRouter([
             path: "create-product",
             Component: CreateProductPage,
           },
+          {
+            path: "shopping-progress",
+            Component: ShoppingProgress,
+            children: [
+              { path: "address", Component: ShoppingProgressForm },
+              { path: "summary", Component: ShoppingProgressListPage },
+            ],
+          },
         ],
+      },
+      {
+        path: "*",
+        Component: ErrorPage,
       },
     ],
   },

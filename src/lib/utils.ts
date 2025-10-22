@@ -8,6 +8,5 @@ export function cn(...inputs: ClassValue[]) {
 
 export const axiosInstance = axios.create({
   baseURL: "https://qbc9.liara.run/api",
-  withCredentials: true
+  withCredentials: true,
 });
-

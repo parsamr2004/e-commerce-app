@@ -1,57 +1,129 @@
 import { Button } from "@/components/ui/button";
-import Layout from "@/Layout";
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import ShopCard from "@/components/ShopCard";
+import useCategory from "@/hooks/use_category";
+import { useState } from "react";
+import { useFilteredProducts } from "@/hooks/use-product-filter";
+import useFavorites from "@/hooks/use-favorites";
 
 interface RadioItemType {
-  valueItem:string,
-  textItem:string
-
+  valueItem: string;
+  textItem: string;
+  selectedCategories: string[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const RadioItem = (props:RadioItemType) =>{
-  const {valueItem, textItem} = props
+const RadioItem = (props: RadioItemType) => {
+  const { valueItem, textItem, selectedCategories, setSelectedCategories } = props;
+  const isSelected = selectedCategories.includes(valueItem);
+
+  const handleChange = () => {
+    if (isSelected) {
+      setSelectedCategories((prev) => prev.filter((id) => id !== valueItem));
+    } else {
+      setSelectedCategories((prev) => [...prev, valueItem]);
+    }
+  };
+
   return (
-    <div className="flex space-x-2 justify-end text-foreground mx-3">
-            <Label htmlFor={valueItem} className="text-[12px] font-light">{textItem}</Label>
-            <RadioGroupItem value={valueItem} id="option-one" className="bg-white" />
+    <div className="text-foreground mx-3 flex justify-end space-x-2">
+      <Label htmlFor={valueItem} className="text-[12px] font-light">
+        {textItem}
+      </Label>
+      <RadioGroupItem
+        onClick={handleChange}
+        value={valueItem}
+        checked={isSelected}
+        id={valueItem}
+        className="bg-white"
+      />
     </div>
-  )
-
-}
+  );
+};
 
 const ShopPage = () => {
-  return (
-      <div className="flex">
-         {/* bg-base-side */}
-        <div className="max-w-[264px] w-full bg-base-side">
-          <RadioGroup className="my-7 mx-3">
-            <p className="bg-card text-foreground rounded-2xl py-1 px-10 text-center text-[14px]">فیلتر برند</p>
-            <RadioItem valueItem="option_one" textItem="Option One"></RadioItem>
-            <RadioItem valueItem="option_two" textItem="Option Two"></RadioItem>
-          </RadioGroup>
-          <div className="flex flex-col items-center mx-3">
-            <label className="bg-card text-foreground py-2 px-10 rounded-2xl w-full text-center text-[14px] bg-color">فیلتر قیمت</label>
-            <input type="text" className="rounded-xl px-2.5 py-2 placeholder:text-[10px] placeholder:font-ligh bg-card text-secoundry m-5" placeholder="قیمت را وارد نمایید"/>
-          </div>
-          {/* <button className="mt-4 border border-gray-400   rounded-sm mx-auto block px-14 ">حذف فیلتر</button> */}
-          <Button size="lg" className="mt-4 border border-gray-400 bg-base-side text-foreground rounded-sm mx-auto block px-14">حذف فیلتر</Button>
-        </div>
-        <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-4 mr-16 mb-[92px] mx-8">
-          <ShopCard></ShopCard>
-          <ShopCard></ShopCard>
-          <ShopCard></ShopCard>
-          <ShopCard></ShopCard>
-          <ShopCard></ShopCard>
-          <ShopCard></ShopCard>
-          <ShopCard></ShopCard>
+  // const { data: products } = useProducts();
+  const { toggleFavorite, isFavorite } = useFavorites();
+  const { data: categories } = useCategory();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000000]);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
+  const filters = { categories: selectedCategories, price: priceRange, page, size };
+  const { data: products, isFetching } = useFilteredProducts(filters);
+  const category_map: Record<string, string> = {};
+  categories?.forEach((category) => {
+    category_map[category._id] = category.name;
+  });
 
+  const handleCleanFilter = () => {
+    setSelectedCategories([]);
+    setPriceRange([0, 1000000000]);
+  };
+
+  return (
+    <div className="flex">
+      {/* bg-base-side */}
+      <div className="bg-base-side w-full max-w-[264px]">
+        <RadioGroup className="mx-3 my-7">
+          <p className="bg-card text-foreground rounded-2xl px-10 py-1 text-center text-[14px]">
+            فیلتر برند
+          </p>
+          {categories?.map((category) => (
+            <RadioItem
+              key={category._id}
+              valueItem={category._id}
+              textItem={category.name}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+            ></RadioItem>
+          ))}
+        </RadioGroup>
+        <div className="mx-3 flex flex-col items-center">
+          <label className="bg-card text-foreground bg-color w-full rounded-2xl px-10 py-2 text-center text-[14px]">
+            فیلتر قیمت
+          </label>
+          <input
+            type="number"
+            value={priceRange[0]}
+            onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
+            className="placeholder:font-ligh bg-card text-secoundry m-5 rounded-xl px-2.5 py-2 placeholder:text-[10px]"
+            placeholder="حداقل قیمت را وارد نمایید"
+          />
+          <input
+            type="number"
+            value={priceRange[1]}
+            onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
+            className="placeholder:font-ligh bg-card text-secoundry m-5 rounded-xl px-2.5 py-2 placeholder:text-[10px]"
+            placeholder="حداکثر قیمت را وارد نمایید"
+          />
         </div>
-        
+        <Button
+          size="lg"
+          className="bg-base-side text-foreground mx-auto mt-4 block rounded-sm border border-gray-400 px-14"
+          onClick={handleCleanFilter}
+        >
+          حذف فیلتر
+        </Button>
       </div>
-  )
-  ;
+      <div className="mx-8 mr-16 mb-[92px] grid grid-cols-3 gap-4 sm:grid-cols-2 md:grid-cols-3">
+        {isFetching ? (
+          <p>در حال بارگذاری...</p>
+        ) : (
+          products?.map((product) => (
+            <ShopCard
+              key={product._id}
+              product={product}
+              categoryName={category_map[product.category]}
+              toggleFavorite={toggleFavorite}
+              isFavorite={isFavorite(product._id)}
+            />
+          ))
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ShopPage;

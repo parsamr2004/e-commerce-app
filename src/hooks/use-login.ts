@@ -18,7 +18,7 @@ const useLogin = () => {
       toast.success("ورود با موفقیت انجام شد");
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
       navigate("/");
-
+      localStorage.setItem("id", data._id);
       localStorage.setItem("isAdmin", JSON.stringify(data.isAdmin));
     },
     onError() {

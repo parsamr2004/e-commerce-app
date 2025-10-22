@@ -1,34 +1,49 @@
 import { Check } from "lucide-react";
 
-const Stepper = () => {
+export interface StepperProps {
+  currentStep: number;
+}
+
+const steps = ["ورود", "آدرس", "خلاصه خرید"];
+
+const Stepper = ({ currentStep }: StepperProps) => {
   return (
-    <div className="fixed top-10 left-1/2 -translate-x-1/2 transform">
-      <div className="flex items-center">
-        <div className="flex flex-col items-center">
-          <span className="mt-2 text-sm text-[var(--color-success)]">خلاصه خرید</span>
-          <div className="mt-3 flex h-3 w-3 items-center justify-center bg-[var(--color-success)] text-white">
-            <Check size={12} />
+    <div className="fixed top-10 left-1/2 flex -translate-x-1/2 items-center gap-5">
+      {steps.map((step, index) => (
+        <div key={index} className="flex items-center">
+          <div className="flex flex-col items-center gap-2">
+            <p
+              className={`text-sm ${
+                index <= currentStep
+                  ? "text-[var(--color-success)]"
+                  : "text-[var(--foreground)] dark:text-[var(--foreground)]"
+              }`}
+            >
+              {step}
+            </p>
+
+            <div
+              className={`flex h-4 w-4 items-center justify-center border-2 ${
+                index < currentStep
+                  ? "border-[var(--color-success)] bg-[var(--color-success)]"
+                  : index === currentStep
+                    ? "border-[var(--color-success)] bg-[var(--background)]"
+                    : "border-[var(--muted-foreground)] bg-[var(--background)]"
+              }`}
+            >
+              {index < currentStep && <Check size={12} className="text-[var(--background)]" />}
+            </div>
           </div>
+
+          {index < steps.length - 1 && (
+            <div
+              className={`mx-2 h-1 w-40 ${
+                index < currentStep ? "bg-[var(--color-success)]" : "bg-[var(--muted-foreground)]"
+              }`}
+            />
+          )}
         </div>
-
-        <div className="mx-4 mt-4 h-1 w-30 bg-[var(--color-success)]"></div>
-
-        <div className="flex flex-col items-center">
-          <span className="mt-2 text-sm text-[var(--color-success)]">آدرس</span>
-          <div className="mt-3 flex h-3 w-3 items-center justify-center bg-[var(--color-success)] text-white">
-            <Check size={12} />
-          </div>
-        </div>
-
-        <div className="mx-4 mt-4 h-1 w-30 bg-[var(--color-success)]"></div>
-
-        <div className="flex flex-col items-center">
-          <span className="mt-2 text-sm text-[var(--color-success)]">ورود</span>
-          <div className="mt-3 flex h-3 w-3 items-center justify-center bg-[var(--color-success)] text-white">
-            <Check size={12} />
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
