@@ -43,7 +43,6 @@ const ShoppingProgressTablePage = () => {
 
     createOrder(payload, {
       onSuccess: (data) => {
-        clearShippingData();
         queryClient.invalidateQueries({ queryKey: ["orders"] });
         toast.success("سفارش با موفقیت ثبت شد");
         navigate(`/checkout?id=${data._id}`);

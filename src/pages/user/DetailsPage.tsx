@@ -47,19 +47,19 @@ const DetailsPage = () => {
           <TableBody>
             {orderDetail.orderItems.map((item) => (
               <TableRow key={item._id} className="border-none">
-                <TableCell className="px-3 py-3 text-right">
+                <TableCell className="px-2 py-3 text-center">
                   <img
-                    src={item.image}
+                    src={`https://qbc9.liara.run/uploads/${item.image}`}
                     alt={item.name}
                     className="inline-block h-16 w-16 object-contain"
                   />
                 </TableCell>
-                <TableCell className="px-1 py-3 text-right">{item.name}</TableCell>
-                <TableCell className="px-1 py-3 text-right">{item.qty}</TableCell>
-                <TableCell className="px-1 py-3 text-right">
+                <TableCell className="px-2 py-3 text-center">{item.name}</TableCell>
+                <TableCell className="px-2 py-3 text-center">{item.qty}</TableCell>
+                <TableCell className="px-2 py-3 text-center">
                   {item.price.toLocaleString()} تومان
                 </TableCell>
-                <TableCell className="px-1 py-3 text-right">
+                <TableCell className="px-2 py-3 text-center">
                   {(item.price * item.qty).toLocaleString()} تومان
                 </TableCell>
               </TableRow>
