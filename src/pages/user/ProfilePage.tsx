@@ -48,7 +48,7 @@ const ProfilePage = () => {
     });
   };
   const handleMyOrderNavigate = () => {
-    navigate("/MyOrders");
+    navigate("/orders");
   };
   useEffect(() => {
     if (profile) {
