@@ -90,6 +90,10 @@ const router = createBrowserRouter([
         path: "*",
         Component: ErrorPage,
       },
+      {
+        path: "Dashboard",
+        Component: Dashboard,
+      },
     ],
   },
 ]);
