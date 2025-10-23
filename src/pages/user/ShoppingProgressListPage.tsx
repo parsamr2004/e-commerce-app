@@ -103,7 +103,7 @@ const ShoppingProgressTablePage = () => {
                   />
                 </TableCell>
                 <TableCell className="px-4 py-3 text-right">{item.name}</TableCell>
-                <TableCell className="px-4 py-3 text-center">{item.quantity}</TableCell>
+                <TableCell className="px-4 py-3 text-center">{item.countInBasket}</TableCell>
                 <TableCell className="px-4 py-3 text-center">
                   {item.price.toLocaleString()} تومان
                 </TableCell>
