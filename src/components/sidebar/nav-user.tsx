@@ -19,6 +19,7 @@ import useUser from "@/hooks/use-user";
 import { Collapsible } from "@radix-ui/react-collapsible";
 import {
   ChevronsUpDown,
+  List,
   LogOut,
   LucideLoader2,
   LucideLogIn,
@@ -118,12 +119,21 @@ export function NavUser() {
                   </Link>
                 </DropdownMenuItem>
                 {isAdmin && (
-                  <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link to="/dashboard" className="flex items-center gap-2">
-                      <Sparkles />
-                      داشبورد
-                    </Link>
-                  </DropdownMenuItem>
+                  <>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link to="/dashboard" className="flex items-center gap-2">
+                        <Sparkles />
+                        داشبورد
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Link to="/profile/orders" className="flex items-center gap-2">
+                        <List />
+                        لیست سفارشات
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
                 )}
               </DropdownMenuGroup>
 
