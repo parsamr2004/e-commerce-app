@@ -44,7 +44,7 @@ export const ProductPage = () => {
   const { mutate: submitReview, isPending } = useSubmitReview(product?._id);
 
   if (!id) return <div>Invalid Product ID</div>;
-  if (!product) return <div>Product not found</div>;
+  if (!product) return <Loading />;
   if (isLoading) return <Loading />;
   if (error) return <ErrorPage />;
 
@@ -220,7 +220,7 @@ export const ProductPage = () => {
                 <div className="flex justify-end pt-4">
                   <Button
                     type="submit"
-                    className="bg-primary"
+                    className="bg-primary cursor-pointer"
                     disabled={isPending}
                     onClick={() => submitReview({ rating, comment })}
                   >
