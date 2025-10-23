@@ -17,7 +17,7 @@ const ShopCard = (props: ProductCardProp) => {
   const { product, categoryName, toggleFavorite, isFavorite } = props;
   const productTitle = product.name;
   const productCategory = categoryName || "";
-  const productPrice = product.price || 0;
+  const productPrice = product.price.toLocaleString() || 0;
   const productDescription = product.description;
   const ProductImg = product.image;
   const { addToCart, updateQuantity } = useCartStore();
@@ -68,7 +68,13 @@ const ShopCard = (props: ProductCardProp) => {
             </Link>
             <LucideArrowLeft className="ml-1" />
           </Button>
-          <button onClick={() => {addToCart(product); updateQuantity(product._id, 1)}} className="cursor-pointer">
+          <button
+            onClick={() => {
+              addToCart(product);
+              updateQuantity(product._id, 1);
+            }}
+            className="cursor-pointer"
+          >
             <ShoppingBasket />
           </button>
         </CardFooter>
