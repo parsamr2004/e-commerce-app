@@ -8,13 +8,16 @@ const useLogout = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => axiosInstance.post("/users/logout").then((res) => res.data),
+    mutationFn: () => axiosInstance.post("/users/logout", {}, { withCredentials: true }),
     onSuccess() {
       toast.success("خروج با موفقیت انجام شد");
-      queryClient.removeQueries({ queryKey: ["user-profile"] });
-      navigate("/");
 
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+
+      localStorage.removeItem("id");
       localStorage.removeItem("isAdmin");
+
+      navigate("/");
     },
     onError() {
       toast.error("خروج ناموفق");
@@ -23,4 +26,3 @@ const useLogout = () => {
 };
 
 export default useLogout;
-
