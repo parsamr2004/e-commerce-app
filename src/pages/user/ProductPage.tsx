@@ -181,9 +181,15 @@ export const ProductPage = () => {
         >
           {/* لیست تب‌ها */}
           <TabsList className="flex h-1/2 w-1/6 flex-col items-stretch justify-between gap-2 rounded-r-lg border-l p-2">
-            <TabsTrigger value="submit-review">ثبت نظر</TabsTrigger>
-            <TabsTrigger value="view-reviews">مشاهده نظرات</TabsTrigger>
-            <TabsTrigger value="related-products">محصولات مرتبط</TabsTrigger>
+            <TabsTrigger value="submit-review" className="cursor-pointer">
+              ثبت نظر
+            </TabsTrigger>
+            <TabsTrigger value="view-reviews" className="cursor-pointer">
+              مشاهده نظرات
+            </TabsTrigger>
+            <TabsTrigger value="related-products" className="cursor-pointer">
+              محصولات مرتبط
+            </TabsTrigger>
           </TabsList>
 
           {/* محتوای تب‌ها */}
@@ -195,15 +201,25 @@ export const ProductPage = () => {
                   امتیاز
                 </label>
                 <Select dir="rtl" name="rating" onValueChange={(value) => setRating(Number(value))}>
-                  <SelectTrigger className="w-full text-right">
+                  <SelectTrigger className="w-full cursor-pointer text-right">
                     <SelectValue placeholder="انتخاب امتیاز" />
                   </SelectTrigger>
                   <SelectContent className="dir-rtl text-right">
-                    <SelectItem value="5">5</SelectItem>
-                    <SelectItem value="4">4</SelectItem>
-                    <SelectItem value="3">3</SelectItem>
-                    <SelectItem value="2">2</SelectItem>
-                    <SelectItem value="1">1</SelectItem>
+                    <SelectItem value="5" className="cursor-pointer">
+                      5
+                    </SelectItem>
+                    <SelectItem value="4" className="cursor-pointer">
+                      4
+                    </SelectItem>
+                    <SelectItem value="3" className="cursor-pointer">
+                      3
+                    </SelectItem>
+                    <SelectItem value="2" className="cursor-pointer">
+                      2
+                    </SelectItem>
+                    <SelectItem value="1" className="cursor-pointer">
+                      1
+                    </SelectItem>
                   </SelectContent>
                 </Select>
 
