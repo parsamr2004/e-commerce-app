@@ -17,9 +17,11 @@ const useNumberToPersian = () => {
   const convertToPersian = useCallback((value: string | number | null | undefined): string => {
     if (value == null) return "";
 
-    return [...String(value)]
-      .map((char) => digitMap[char as keyof typeof digitMap] ?? char)
-      .join("");
+    let str = String(value).trim();
+
+    str = str.replace(/-/g, "/");
+
+    return [...str].map((char) => digitMap[char as keyof typeof digitMap] ?? char).join("");
   }, []);
 
   return convertToPersian;

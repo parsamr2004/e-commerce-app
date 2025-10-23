@@ -1,5 +1,5 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody } from "@/components/ui/table";
-import OrderRow from "@/components/OrderRow";
+import OrderItemRow from "@/components/OrderItemRow";
 import useGetOrders from "@/hooks/use-get-orders.ts";
 
 export default function OrdersPage() {
@@ -36,7 +36,7 @@ export default function OrdersPage() {
                   : ((order?.user as { username?: string })?.username ?? "");
 
               return (
-                <OrderRow
+                <OrderItemRow
                   key={orderItem._id}
                   order={{
                     _id: order._id,

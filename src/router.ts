@@ -63,10 +63,7 @@ const router = createBrowserRouter([
             path: "profile",
             Component: ProfilePage,
           },
-          {
-            path: "my-orders",
-            Component: UserOrdersPage,
-          },
+
           {
             path: "create-product",
             Component: CreateProductPage,
