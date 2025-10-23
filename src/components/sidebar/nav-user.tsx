@@ -18,13 +18,13 @@ import useLogout from "@/hooks/use-logout";
 import useUser from "@/hooks/use-user";
 import { Collapsible } from "@radix-ui/react-collapsible";
 import {
-  BadgeCheck,
   ChevronsUpDown,
   LogOut,
   LucideLoader2,
   LucideLogIn,
   LucideUserPlus,
   Sparkles,
+  UserRoundPen,
 } from "lucide-react";
 import { Link } from "react-router";
 
@@ -32,10 +32,6 @@ const guestMenu = [
   { title: "ورود", icon: LucideLogIn, href: "/login" },
   { title: "ثبت‌ نام", icon: LucideUserPlus, href: "/register" },
 ];
-
-const userMenu = [{ title: "پروفایل", icon: BadgeCheck, href: "/profile" }];
-
-const adminMenu = [{ title: "داشبورد", icon: Sparkles, href: "/admin/dashboard" }];
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -54,31 +50,22 @@ export function NavUser() {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let menuItems: { title: string; icon: any; href: string }[] = [];
-
-  if (!user) {
-    menuItems = guestMenu;
-  } else {
-    menuItems = [...userMenu];
-    if (isAdmin) menuItems.push(...adminMenu);
-  }
-
   return (
     <SidebarMenu>
       {/* نمایش آیتم‌ها */}
-      {menuItems.map((item) => (
-        <Link to={item.href} key={item.title}>
-          <Collapsible asChild className="group/collapsible">
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </Collapsible>
-        </Link>
-      ))}
+      {!user &&
+        guestMenu.map((item) => (
+          <Link to={item.href} key={item.title}>
+            <Collapsible asChild className="group/collapsible">
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </Collapsible>
+          </Link>
+        ))}
 
       {/* Dropdown منوی کاربر (فقط وقتی وارد شده) */}
       {user && (
@@ -125,12 +112,14 @@ export function NavUser() {
 
               <DropdownMenuGroup>
                 <DropdownMenuItem className="cursor-pointer">
-                  <BadgeCheck />
-                  پروفایل
+                  <Link to="/profile" className="flex items-center gap-2">
+                    <UserRoundPen />
+                    پروفایل
+                  </Link>
                 </DropdownMenuItem>
                 {isAdmin && (
                   <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link to="/admin/dashboard" className="flex items-center gap-2">
+                    <Link to="/dashboard" className="flex items-center gap-2">
                       <Sparkles />
                       داشبورد
                     </Link>

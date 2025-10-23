@@ -35,7 +35,7 @@ const ProductCard = ({ product, toggleFavorite, isFavorite }: ProductCardProps) 
   return (
     <Card className="h-full w-full overflow-hidden p-0" onClick={handleCardClick}>
       <CardContent className="relative p-0">
-        <img src={product.image} alt={product.name} className="h-50 w-full object-center" />
+        <img src={product.image} alt={product.name} className="h-50 w-full object-cover" />
         <Button
           className={`absolute top-2 right-2 ${
             isFavorite
