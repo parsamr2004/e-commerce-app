@@ -37,3 +37,30 @@ export type OrderResponseModel = {
   paymentMethod: string;
   shippingAddress: ShippingAddress;
 };
+
+export type OrderRowModel = {
+  _id: string;
+  name: string;
+  image: string;
+  user: string;
+  createdAt: string;
+  price: number;
+  qty: number;
+  isPaid: boolean;
+  isDelivered: boolean;
+};
+
+export type UserOrder = {
+  _id: string;
+  user: string;
+  orderItems: OrderItemLine[];
+  shippingAddress: ShippingAddress;
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  isDelivered: boolean;
+  createdAt: string;
+  updatedAt: string;
+};

@@ -9,11 +9,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
+import useGetAllCustomers from "@/hooks/use-all-customers";
+import useAllTotalSales from "@/hooks/use-all-total-sales";
 import useTotalSales from "@/hooks/use-total-sales";
 import { DollarSign } from "lucide-react";
-import useAllTotalSales from "@/hooks/use-all-total-sales";
-import useGetAllCustomers from "@/hooks/use-all-customers";
 
 export const description = "A bar chart with a label";
 

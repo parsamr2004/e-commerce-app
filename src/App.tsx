@@ -19,25 +19,30 @@ const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentProduct = products?.[currentIndex];
 
-  if (isLoading) return <div>اطلاعات در حال بارگذاری میباشد، لطفا منتظر بمانید...</div>;
+  if (isLoading)
+    return (
+      <div className="h-full text-center font-bold">
+        اطلاعات در حال بارگذاری میباشد، لطفا منتظر بمانید...
+      </div>
+    );
   if (error) return <div>Error loading product</div>;
 
   return (
     <section className="overflow-x-hidden">
-      <article className="flex flex-wrap gap-6">
-        <div className="grid max-w-lg flex-1 grid-cols-2 gap-4">
+      <article className="flex h-[550px] flex-wrap gap-6">
+        <div className="grid h-[530px] max-w-[600px] flex-1 grid-cols-2 gap-4">
           {products?.slice(0, 4).map((product) => (
-            <Link to={`/products/${product._id}`} key={product._id}>
-              <ProductCard
-                key={product._id}
-                product={product}
-                toggleFavorite={toggleFavorite}
-                isFavorite={isFavorite(product._id)}
-              />
-            </Link>
+            // <Link to={`/products/${product._id}`} key={product._id}>
+            <ProductCard
+              key={product._id}
+              product={product}
+              toggleFavorite={toggleFavorite}
+              isFavorite={isFavorite(product._id)}
+            />
+            // </Link>
           ))}
         </div>
-        <div className="flex-1">
+        <div className="h-[500px] flex-1">
           <Swiper
             modules={[Navigation]}
             navigation
@@ -52,50 +57,52 @@ const App = () => {
             {products?.map((product) => (
               <SwiperSlide key={product._id}>
                 <div className="">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="h-80 w-full rounded-md object-contain"
-                  />
+                  <Link to={`/products/${product._id}`} key={product._id}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-80 w-full rounded-md object-contain"
+                    />
+                  </Link>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
 
           {currentProduct && (
-            <div className="mt-4 flex justify-between gap-2 p-4">
-              <div className="flex-1 space-y-2 py-3">
+            <div className="mt-4 grid grid-cols-[3fr_1fr_3fr] grid-rows-1 justify-center gap-2 p-4">
+              <div className="">
                 <h3 className="text-lg font-bold">{currentProduct.name}</h3>
                 <p className="py-3 pl-4 text-left font-semibold">
                   {Math.round(currentProduct.price).toLocaleString()} تومان
                 </p>
-                <p className="line-clamp-2 max-w-md text-sm">{currentProduct.description}</p>
+                <p className="line-clamp-2 text-sm">{currentProduct.description}</p>
               </div>
 
               <div className="">
-                <div className="flex items-center gap-2 py-3">
+                <div className="flex gap-1 py-3">
                   <Star className="h-4 w-4" />
                   <span className="text-muted-foreground">امتیاز:</span>
                   <span>{Math.round(currentProduct.rating)}</span>
                 </div>
-                <div className="flex items-center gap-2 py-3">
+                <div className="flex gap-1 py-3">
                   <ShoppingCart className="h-4 w-4" />
                   <span className="text-muted-foreground">تعداد:</span>
                   <span>{currentProduct.numReviews}</span>
                 </div>
-                <div className="flex items-center gap-2 py-3">
+                <div className="flex gap-1 py-3">
                   <ShoppingBag className="h-4 w-4" />
                   <span className="text-muted-foreground">موجودی:</span>
                   <span>{currentProduct.countInStock}</span>
                 </div>
               </div>
-              <div>
-                <div className="flex items-center gap-2 py-3">
+              <div className="">
+                <div className="flex gap-2 py-3">
                   <Store className="h-4 w-4" />
                   <span className="text-muted-foreground">برند:</span>
                   <span>{currentProduct.category?.name || "بدون برند"}</span>
                 </div>
-                <div className="flex items-center gap-2 py-3">
+                <div className="flex gap-0 py-3">
                   <Clock4 className="h-4 w-4" />
                   <span className="text-muted-foreground">آخرین بروزرسانی:</span>
                   <span>
@@ -105,7 +112,7 @@ const App = () => {
                     })}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 py-3">
+                <div className="flex gap-2 py-3">
                   <Star className="h-4 w-4"></Star>
                   <p className="text-muted-foreground">نظرات:</p>
                   <p>{currentProduct.numReviews}</p>
@@ -120,16 +127,16 @@ const App = () => {
           <h2 className="text-lg font-bold">محصولات ویژه</h2>
           <Button onClick={() => navigate("/shop")}>فروشگاه</Button>
         </div>
-        <div className="grid grid-cols-4 grid-rows-2 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           {products?.map((product) => (
-            <Link to={`/products/${product._id}`} key={product._id}>
-              <ProductCard
-                key={product._id}
-                product={product}
-                toggleFavorite={toggleFavorite}
-                isFavorite={isFavorite(product._id)}
-              />
-            </Link>
+            // <Link to={`/products/${product._id}`} key={product._id}>
+            <ProductCard
+              key={product._id}
+              product={product}
+              toggleFavorite={toggleFavorite}
+              isFavorite={isFavorite(product._id)}
+            />
+            // </Link>
           ))}
         </div>
       </div>
