@@ -16,7 +16,7 @@ const useSubmitReview = (productId?: string) => {
         >(`/products/${productId}/reviews`, payload)
         .then((res) => res.data),
     onSuccess() {
-      toast.success("33 11 تا ابد نظر شما با موفقیت ثبت شد");
+      toast.success("✅ نظر شما با موفقیت ثبت شد");
       queryClient.invalidateQueries({ queryKey: ["product", productId] });
     },
     onError() {
