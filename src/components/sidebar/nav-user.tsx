@@ -1,128 +1,142 @@
-import React from "react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuGroup,
-} from "@/components/ui/dropdown-menu";
-import { ChevronsUpDown, LogOut, LucideUserPen } from "lucide-react";
+import useLogout from "@/hooks/use-logout";
+import useUser from "@/hooks/use-user";
 import { Collapsible } from "@radix-ui/react-collapsible";
+import {
+  ChevronsUpDown,
+  LogOut,
+  LucideLoader2,
+  LucideLogIn,
+  LucideUserPlus,
+  Sparkles,
+  UserRoundPen,
+} from "lucide-react";
+import { Link } from "react-router";
 
-export interface User {
-  name: string;
-  email: string;
-  avatar: string;
-}
+const guestMenu = [
+  { title: "ورود", icon: LucideLogIn, href: "/login" },
+  { title: "ثبت‌ نام", icon: LucideUserPlus, href: "/register" },
+];
 
-export interface GuestMenuItem {
-  title: string;
-  onClick: () => void;
-  icon?: React.ComponentType<{ className?: string }>;
-}
-
-export interface NavUserProps {
-  user?: User;
-  isLogin: boolean;
-  guestMenu?: GuestMenuItem[];
-  onLogoutClick?: () => void;
-}
-
-export function NavUser({ user, isLogin, guestMenu = [], onLogoutClick }: NavUserProps) {
+export function NavUser() {
   const { isMobile } = useSidebar();
+  const { data: user, isLoading } = useUser();
+  const { mutate: logout } = useLogout();
 
-  if (!isLogin && guestMenu.length > 0) {
+  const isAdmin = localStorage.getItem("isAdmin")
+    ? JSON.parse(localStorage.getItem("isAdmin")!)
+    : false;
+
+  if (isLoading) {
     return (
-      <SidebarMenu>
-        {guestMenu.map((item) => (
-          <Collapsible key={item.title} asChild className="group/collapsible">
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                tooltip={item.title}
-                onClick={item.onClick}
-                className="cursor-pointer"
-              >
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </Collapsible>
-        ))}
-      </SidebarMenu>
+      <div className="flex items-center justify-center">
+        <LucideLoader2 className="size-4 animate-spin" />
+      </div>
     );
   }
 
-  if (!user) return null;
-
   return (
     <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild className="cursor-pointer">
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">
-                  {user.name[0]?.toUpperCase() ?? "?"}
-                </AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate text-right font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
-              </div>
-              <ChevronsUpDown className="ml-auto size-4 opacity-60" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
+      {/* نمایش آیتم‌ها */}
+      {!user &&
+        guestMenu.map((item) => (
+          <Link to={item.href} key={item.title}>
+            <Collapsible asChild className="group/collapsible">
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </Collapsible>
+          </Link>
+        ))}
 
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            align="end"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+      {/* Dropdown منوی کاربر (فقط وقتی وارد شده) */}
+      {user && (
+        <SidebarMenuItem>
+          <DropdownMenu dir="rtl">
+            <DropdownMenuTrigger asChild className="cursor-pointer">
+              <SidebarMenuButton
+                size="lg"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">
-                    {user.name[0]?.toUpperCase() ?? "?"}
+                    {user.username[0]?.toUpperCase() ?? "?"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-medium">{user.username}</span>
                 </div>
-              </div>
-            </DropdownMenuLabel>
+                <ChevronsUpDown className="ml-auto size-4 opacity-60" />
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
 
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem className="cursor-pointer">
-                <LucideUserPen />
-                پروفایل
+            <DropdownMenuContent
+              className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+              side={isMobile ? "bottom" : "right"}
+              align="end"
+              sideOffset={4}
+            >
+              <DropdownMenuLabel className="p-0 font-normal">
+                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    <AvatarFallback className="rounded-lg">
+                      {user.username[0]?.toUpperCase() ?? "?"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{user.username}</span>
+                    <span className="truncate text-xs">{user.email}</span>
+                  </div>
+                </div>
+              </DropdownMenuLabel>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuGroup>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Link to="/profile" className="flex items-center gap-2">
+                    <UserRoundPen />
+                    پروفایل
+                  </Link>
+                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link to="/dashboard" className="flex items-center gap-2">
+                      <Sparkles />
+                      داشبورد
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+              </DropdownMenuGroup>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
+                <LogOut />
+                خروج از حساب
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={onLogoutClick} className="cursor-pointer">
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </SidebarMenuItem>
+      )}
     </SidebarMenu>
   );
 }

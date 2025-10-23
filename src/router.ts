@@ -7,7 +7,17 @@ import CartPage from "./pages/user/CartPage";
 import FavoritesPage from "./pages/user/FavoritePage";
 import ProductPage from "./pages/user/ProductPage";
 import ShopPage from "./pages/user/ShopPage";
+import ProfilePage from "./pages/user/ProfilePage";
+import UserOrdersPage from "./pages/user/UserOrdersPage";
+import CreateProductPage from "./pages/admin/CreateProductPage";
+import PrivateRoutes from "./PrivateRoutes";
 import { Dashboard } from "./pages/admin/Dashboard";
+import ShoppingProgress from "./pages/user/ShoppingProgress";
+import ShoppingProgressForm from "./pages/user/ShoppingProgressFormPage";
+import ShoppingProgressListPage from "./pages/user/ShoppingProgressListPage";
+import ErrorPage from "./pages/ErrorPage";
+import CheckoutPage from "./pages/user/CheckoutPage";
+import DetailsPage from "./pages/user/DetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -19,10 +29,6 @@ const router = createBrowserRouter([
         Component: App,
       },
       {
-        path: "products/:id",
-        Component: ProductPage,
-      },
-      {
         path: "login",
         Component: LoginPage,
       },
@@ -31,16 +37,58 @@ const router = createBrowserRouter([
         Component: RegisterPage,
       },
       {
+        path: "products/:id",
+        Component: ProductPage,
+      },
+      {
         path: "shop",
         Component: ShopPage,
       },
       {
-        path: "cart",
-        Component: CartPage,
+        path: "dashboard",
+        Component: Dashboard,
       },
       {
-        path: "favorites",
-        Component: FavoritesPage,
+        Component: PrivateRoutes,
+        children: [
+          {
+            path: "favorites",
+            Component: FavoritesPage,
+          },
+          {
+            path: "cart",
+            Component: CartPage,
+          },
+          {
+            path: "profile",
+            Component: ProfilePage,
+          },
+
+          {
+            path: "create-product",
+            Component: CreateProductPage,
+          },
+          {
+            path: "shopping-progress",
+            Component: ShoppingProgress,
+            children: [
+              { path: "address", Component: ShoppingProgressForm },
+              { path: "summary", Component: ShoppingProgressListPage },
+            ],
+          },
+          { path: "checkout", Component: CheckoutPage },
+          {
+            path: "orders",
+            children: [
+              { index: true, Component: UserOrdersPage },
+              { path: ":orderId", Component: DetailsPage },
+            ],
+          },
+        ],
+      },
+      {
+        path: "*",
+        Component: ErrorPage,
       },
       {
         path: "Dashboard",
