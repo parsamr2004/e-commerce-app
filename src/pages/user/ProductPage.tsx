@@ -27,17 +27,26 @@ import {
 } from "lucide-react";
 import { Link, useParams } from "react-router";
 import useFavorites from "@/hooks/use-favorites";
+import Loading from "@/components/Loading";
+import ErrorPage from "../ErrorPage";
+import { useState } from "react";
+import useSubmitReview from "@/hooks/use-submit-review";
+// import useSubmitReview from "@/hooks/use-submit-review";
 
 export const ProductPage = () => {
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(1);
   const { id } = useParams();
   const { data: product, isLoading, error } = useGetSingleProduct(id);
   const { toggleFavorite, isFavorite } = useFavorites();
   const { data: products } = useProducts();
   const { addToCart, updateQuantity } = useCartStore();
+  const { mutate: submitReview, isPending } = useSubmitReview(product?._id);
 
   if (!id) return <div>Invalid Product ID</div>;
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading product</div>;
+  if (!product) return <div>Product not found</div>;
+  if (isLoading) return <Loading />;
+  if (error) return <ErrorPage />;
 
   return (
     <div className="flex h-full w-full flex-col px-3 py-6">
@@ -50,14 +59,15 @@ export const ProductPage = () => {
         <div className="flex h-full min-h-2/3 w-full flex-col">
           <CardContent className="flex h-full w-full flex-col">
             <div className="mb-4 flex flex-col">
-              <br />
               <div className="flex flex-row justify-between">
                 <h2 className="text-2xl font-bold">{product.name}</h2>
               </div>
               <br />
               <p className="mb-6">{product.description}</p>
               <div className="mb-4 flex items-center justify-between">
-                <span className="text-3xl font-bold">{product.price.toLocaleString()} تومان</span>
+                <span className="text-3xl font-bold">
+                  {Math.round(product.price).toLocaleString()} تومان
+                </span>
               </div>
             </div>
 
@@ -67,7 +77,7 @@ export const ProductPage = () => {
                 <div className="flex flex-row items-center">
                   <LucideStar className="fill-black dark:fill-white" />
                   <p className="pr-1">امتیاز :</p>
-                  <span className="p-1">{product.rating}</span>
+                  <span className="p-1">{product.rating.toFixed(1)}</span>
                 </div>
                 <div className="flex flex-row items-center">
                   <LucideStore />
@@ -100,7 +110,7 @@ export const ProductPage = () => {
                 <div className="flex flex-row items-center">
                   <LucideStar className="fill-black dark:fill-white" />
                   <p className="pr-1">نظرات :</p>
-                  <span className="p-1">{product.reviews.length}</span>
+                  <span className="p-1">{product.reviews?.length}</span>
                 </div>
               </div>
             </div>
@@ -121,10 +131,8 @@ export const ProductPage = () => {
                     return <RatingStar key={i} fillPercentage={fillPercentage} />;
                   })}
                 </div>
-                <div className="mr-2 text-sm">{product.reviews.length} نظر</div>
+                <div className="mr-2 text-sm">{product.reviews?.length} نظر</div>
               </div>
-
-              
             </div>
 
             <br />
@@ -132,7 +140,10 @@ export const ProductPage = () => {
               <Button
                 className="bg-primary w-full cursor-pointer"
                 size="lg"
-                onClick={() => {addToCart(product); updateQuantity(id, 1)}}
+                onClick={() => {
+                  addToCart(product);
+                  updateQuantity(id, 1);
+                }}
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 افزودن به سبد خرید
@@ -160,6 +171,7 @@ export const ProductPage = () => {
       </div>
       <br />
       <br />
+      <br />
       <div className="h-[400px] w-full items-center">
         <Tabs
           dir="rtl"
@@ -182,7 +194,7 @@ export const ProductPage = () => {
                 <label htmlFor="rating" className="block text-sm font-medium">
                   امتیاز
                 </label>
-                <Select dir="rtl" name="rating">
+                <Select dir="rtl" name="rating" onValueChange={(value) => setRating(Number(value))}>
                   <SelectTrigger className="w-full text-right">
                     <SelectValue placeholder="انتخاب امتیاز" />
                   </SelectTrigger>
@@ -202,43 +214,49 @@ export const ProductPage = () => {
                   id="review"
                   placeholder="نظر خود را وارد نمایید"
                   className="h-[100px] resize-none text-right"
+                  onChange={(e) => setComment(e.target.value)}
                 />
 
                 <div className="flex justify-end pt-4">
-                  <Button type="submit" className="bg-primary">
-                    ثبت نظر
+                  <Button
+                    type="submit"
+                    className="bg-primary"
+                    disabled={isPending}
+                    onClick={() => submitReview({ rating, comment })}
+                  >
+                    {isPending ? "در حال ارسال..." : "ثبت نظر"}
                   </Button>
                 </div>
               </div>
             </TabsContent>
 
             {/* مشاهده نظرات */}
-            <TabsContent value="view-reviews" className="h-full">
+            <TabsContent
+              value="view-reviews"
+              className="max-h-[400px] overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
               {product.reviews?.length === 0 ? (
-                <div className="flex h-full items-center justify-center p-6 text-center text-gray-600">
+                <div className="flex h-[200px] items-center justify-center text-center">
                   هیچ نظری برای این محصول ثبت نشده است.
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-4 p-4">
                   {product.reviews?.map((rev) => (
-                    <div key={rev._id} className="rounded-lg bg-gray-100 p-6">
-                      <div className="flex justify-between text-sm text-gray-600">
+                    <div key={rev._id} className="bg-muted rounded-lg p-6">
+                      <div className="flex justify-between text-sm">
                         <span className="rtl:text-right">
                           {new Date(rev.createdAt).toLocaleDateString("fa-IR")}
                         </span>
                         <span className="rtl:text-left">{rev.name}</span>
                       </div>
 
-                      <p className="mt-4 text-gray-800">{rev.comment}</p>
-                      <br />
+                      <p className="mt-4">{rev.comment}</p>
 
-                      <div className="flex flex-row items-center">
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => {
-                            const fill = i + 1 <= rev.rating ? 100 : 0;
-                            return <RatingStar key={i} fillPercentage={fill} />;
-                          })}
-                        </div>
+                      <div className="mt-3 flex items-center">
+                        {[...Array(5)].map((_, i) => {
+                          const fill = i + 1 <= rev.rating ? 100 : 0;
+                          return <RatingStar key={i} fillPercentage={fill} />;
+                        })}
                       </div>
                     </div>
                   ))}

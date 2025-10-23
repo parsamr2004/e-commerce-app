@@ -25,7 +25,7 @@ export function NavMain({
     }[];
   }[];
 }) {
-  const { cartItems } =  useCartStore();
+  const { cartItems } = useCartStore();
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -40,8 +40,10 @@ export function NavMain({
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
                   {item.icon && <item.icon />}
-                  {(item.title === "سبد خرید" && cartItems.length > 0) && (
-                    <Badge className="absolute -top-1 -right-[1px] h-[20px] p-[2px]">{cartItems.length}</Badge>
+                  {item.title === "سبد خرید" && cartItems.length > 0 && (
+                    <Badge className="absolute -top-0/5 -right-[1px] flex h-[14px] w-[14px] items-center justify-center rounded-full p-[1/5px]">
+                      {cartItems.length}
+                    </Badge>
                   )}
                   <span>{item.title}</span>
                 </SidebarMenuButton>
