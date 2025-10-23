@@ -31,6 +31,7 @@ import Loading from "@/components/Loading";
 import ErrorPage from "../ErrorPage";
 import { useState } from "react";
 import useSubmitReview from "@/hooks/use-submit-review";
+// import useSubmitReview from "@/hooks/use-submit-review";
 
 export const ProductPage = () => {
   const [comment, setComment] = useState("");
@@ -40,9 +41,10 @@ export const ProductPage = () => {
   const { toggleFavorite, isFavorite } = useFavorites();
   const { data: products } = useProducts();
   const { addToCart, updateQuantity } = useCartStore();
-  const { mutate: submitReview, isPending } = useSubmitReview(product.id);
+  const { mutate: submitReview, isPending } = useSubmitReview(product?._id);
 
   if (!id) return <div>Invalid Product ID</div>;
+  if (!product) return <div>Product not found</div>;
   if (isLoading) return <Loading />;
   if (error) return <ErrorPage />;
 
@@ -108,7 +110,7 @@ export const ProductPage = () => {
                 <div className="flex flex-row items-center">
                   <LucideStar className="fill-black dark:fill-white" />
                   <p className="pr-1">نظرات :</p>
-                  <span className="p-1">{product.reviews.length}</span>
+                  <span className="p-1">{product.reviews?.length}</span>
                 </div>
               </div>
             </div>
@@ -129,7 +131,7 @@ export const ProductPage = () => {
                     return <RatingStar key={i} fillPercentage={fillPercentage} />;
                   })}
                 </div>
-                <div className="mr-2 text-sm">{product.reviews.length} نظر</div>
+                <div className="mr-2 text-sm">{product.reviews?.length} نظر</div>
               </div>
             </div>
 

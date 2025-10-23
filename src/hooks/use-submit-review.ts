@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 import { toast } from "sonner";
 
-const useSubmitReview = (productId: string) => {
+const useSubmitReview = (productId?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
