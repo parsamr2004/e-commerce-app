@@ -18,6 +18,7 @@ import useLogout from "@/hooks/use-logout";
 import useUser from "@/hooks/use-user";
 import { Collapsible } from "@radix-ui/react-collapsible";
 import {
+  BookKey,
   ChevronsUpDown,
   List,
   LogOut,
@@ -122,11 +123,11 @@ export function NavUser() {
                   <>
                     <DropdownMenuItem asChild className="cursor-pointer">
                       <Link to="/dashboard" className="flex items-center gap-2">
-                        <Sparkles />
+                        <BookKey />
                         داشبورد
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
+
                     <DropdownMenuItem className="cursor-pointer">
                       <Link to="/profile/orders" className="flex items-center gap-2">
                         <List />
@@ -136,8 +137,6 @@ export function NavUser() {
                   </>
                 )}
               </DropdownMenuGroup>
-
-              <DropdownMenuSeparator />
 
               <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
                 <LogOut />
