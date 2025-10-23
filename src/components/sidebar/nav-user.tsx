@@ -128,7 +128,7 @@ export function NavUser() {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="cursor-pointer">
-                      <Link to="/profile/orders" className="flex items-center gap-2">
+                      <Link to="/orders" className="flex items-center gap-2">
                         <List />
                         لیست سفارشات
                       </Link>
