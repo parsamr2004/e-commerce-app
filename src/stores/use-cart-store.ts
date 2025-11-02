@@ -6,6 +6,7 @@ interface IuseCartStore {
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
+  deleteItems: () => void;
 }
 
 const useCartStore = create<IuseCartStore>((set) => ({
@@ -32,6 +33,11 @@ const useCartStore = create<IuseCartStore>((set) => ({
       cartItems: state.cartItems.map((item) =>
         item._id === productId ? { ...item, countInBasket: quantity } : item
       ),
+    })),
+
+  deleteItems: () =>
+    set(() => ({
+      cartItems: [],
     })),
 }));
 

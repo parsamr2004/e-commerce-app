@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
 import useFavorites from "@/hooks/use-favorites";
 import useProducts from "./hooks/use-products";
@@ -21,122 +21,127 @@ const App = () => {
 
   if (isLoading)
     return (
-      <div className="h-full text-center font-bold">
+      <div className="mx-auto flex min-h-[50vh] w-full max-w-5xl items-center justify-center px-4 text-center text-sm font-semibold sm:text-base">
         اطلاعات در حال بارگذاری میباشد، لطفا منتظر بمانید...
       </div>
     );
-  if (error) return <div>Error loading product</div>;
+  if (error) return <div className="px-4 py-8 text-center">Error loading product</div>;
 
   return (
-    <section className="overflow-x-hidden">
-      <article className="flex h-[550px] flex-wrap gap-6">
-        <div className="grid h-[530px] max-w-[600px] flex-1 grid-cols-2 gap-4">
-          {products?.slice(0, 4).map((product) => (
-            // <Link to={`/products/${product._id}`} key={product._id}>
-            <ProductCard
-              key={product._id}
-              product={product}
-              toggleFavorite={toggleFavorite}
-              isFavorite={isFavorite(product._id)}
-            />
-            // </Link>
-          ))}
-        </div>
-        <div className="h-[500px] flex-1">
-          <Swiper
-            modules={[Navigation]}
-            navigation
-            spaceBetween={4}
-            slidesPerView={1}
-            loop={true}
-            dir="rtl"
-            onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
-            onRealIndexChange={(swiper) => setCurrentIndex(swiper.realIndex)}
-            className="w-[700px] rounded-md"
-          >
-            {products?.map((product) => (
-              <SwiperSlide key={product._id}>
-                <div className="">
-                  <Link to={`/products/${product._id}`} key={product._id}>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="h-80 w-full rounded-md object-contain"
-                    />
+    <section className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <article className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="order-1 lg:order-2 flex flex-col">
+          <div className="w-full overflow-hidden rounded-xl border">
+            <Swiper
+              modules={[Navigation]}
+              navigation
+              spaceBetween={8}
+              slidesPerView={1}
+              loop
+              dir="rtl"
+              onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
+              onRealIndexChange={(swiper) => setCurrentIndex(swiper.realIndex)}
+              className="w-full"
+            >
+              {products?.map((product) => (
+                <SwiperSlide key={product._id}>
+                  <Link to={`/products/${product._id}`}>
+                    <div className="relative aspect-[16/9] sm:aspect-[4/3] lg:aspect-[16/9]">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="absolute inset-0 h-full w-full object-contain"
+                        loading="lazy"
+                      />
+                    </div>
                   </Link>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
 
           {currentProduct && (
-            <div className="mt-4 grid grid-cols-[3fr_1fr_3fr] grid-rows-1 justify-center gap-2 p-4">
-              <div className="">
-                <h3 className="text-lg font-bold">{currentProduct.name}</h3>
-                <p className="py-3 pl-4 text-left font-semibold">
+            <div className="mt-4 grid grid-cols-1 gap-3 rounded-xl border p-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div>
+                <h3 className="text-base font-bold sm:text-lg">{currentProduct.name}</h3>
+                <p className="py-2 text-left text-sm font-semibold sm:text-base">
                   {Math.round(currentProduct.price).toLocaleString()} تومان
                 </p>
-                <p className="line-clamp-2 text-sm">{currentProduct.description}</p>
+                <p className="line-clamp-2 text-xs sm:text-sm">{currentProduct.description}</p>
               </div>
 
-              <div className="">
-                <div className="flex gap-1 py-3">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-1">
+                <div className="flex items-center gap-1">
                   <Star className="h-4 w-4" />
-                  <span className="text-muted-foreground">امتیاز:</span>
-                  <span>{Math.round(currentProduct.rating)}</span>
+                  <span className="text-muted-foreground text-xs sm:text-sm">امتیاز:</span>
+                  <span className="text-xs sm:text-sm">{Math.round(currentProduct.rating)}</span>
                 </div>
-                <div className="flex gap-1 py-3">
+                <div className="flex items-center gap-1">
                   <ShoppingCart className="h-4 w-4" />
-                  <span className="text-muted-foreground">تعداد:</span>
-                  <span>{currentProduct.numReviews}</span>
+                  <span className="text-muted-foreground text-xs sm:text-sm">تعداد:</span>
+                  <span className="text-xs sm:text-sm">{currentProduct.numReviews}</span>
                 </div>
-                <div className="flex gap-1 py-3">
+                <div className="flex items-center gap-1">
                   <ShoppingBag className="h-4 w-4" />
-                  <span className="text-muted-foreground">موجودی:</span>
-                  <span>{currentProduct.countInStock}</span>
+                  <span className="text-muted-foreground text-xs sm:text-sm">موجودی:</span>
+                  <span className="text-xs sm:text-sm">{currentProduct.countInStock}</span>
                 </div>
               </div>
-              <div className="">
-                <div className="flex gap-2 py-3">
+
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-1">
+                <div className="flex items-center gap-2">
                   <Store className="h-4 w-4" />
-                  <span className="text-muted-foreground">برند:</span>
-                  <span>{currentProduct.category?.name || "بدون برند"}</span>
+                  <span className="text-muted-foreground text-xs sm:text-sm">برند:</span>
+                  <span className="text-xs sm:text-sm">
+                    {currentProduct.category?.name || "بدون برند"}
+                  </span>
                 </div>
-                <div className="flex gap-0 py-3">
+                <div className="flex items-center gap-2">
                   <Clock4 className="h-4 w-4" />
-                  <span className="text-muted-foreground">آخرین بروزرسانی:</span>
-                  <span>
+                  <span className="text-muted-foreground text-xs sm:text-sm">آخرین بروزرسانی:</span>
+                  <span className="text-xs sm:text-sm">
                     {formatDistanceToNow(new Date(currentProduct.updatedAt), {
                       addSuffix: true,
                       locale: faIR,
                     })}
                   </span>
                 </div>
-                <div className="flex gap-2 py-3">
-                  <Star className="h-4 w-4"></Star>
-                  <p className="text-muted-foreground">نظرات:</p>
-                  <p>{currentProduct.numReviews}</p>
+                <div className="flex items-center gap-2">
+                  <Star className="h-4 w-4" />
+                  <span className="text-muted-foreground text-xs sm:text-sm">نظرات:</span>
+                  <span className="text-xs sm:text-sm">{currentProduct.numReviews}</span>
                 </div>
               </div>
             </div>
           )}
         </div>
-      </article>
-      <div className="my-10">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold">محصولات ویژه</h2>
-          <Button onClick={() => navigate("/shop")}>فروشگاه</Button>
-        </div>
-        <div className="grid grid-cols-4 gap-4">
-          {products?.map((product) => (
-            // <Link to={`/products/${product._id}`} key={product._id}>
+
+        <div className="order-2 lg:order-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {products?.slice(0, 4).map((product) => (
             <ProductCard
               key={product._id}
               product={product}
               toggleFavorite={toggleFavorite}
               isFavorite={isFavorite(product._id)}
             />
-            // </Link>
+          ))}
+        </div>
+      </article>
+
+      <div className="my-10">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-base font-bold sm:text-lg">محصولات ویژه</h2>
+          <Button onClick={() => navigate("/shop")}>فروشگاه</Button>
+        </div>
+
+        <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))] sm:[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
+          {products?.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              toggleFavorite={toggleFavorite}
+              isFavorite={isFavorite(product._id)}
+            />
           ))}
         </div>
       </div>
@@ -145,3 +150,4 @@ const App = () => {
 };
 
 export default App;
+
