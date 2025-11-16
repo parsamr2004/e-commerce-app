@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import useLogout from "@/hooks/use-logout";
 import useUser from "@/hooks/use-user";
+import { cn } from "@/lib/utils";
 import { Collapsible } from "@radix-ui/react-collapsible";
 import {
   BookKey,
@@ -25,10 +26,9 @@ import {
   LucideLoader2,
   LucideLogIn,
   LucideUserPlus,
-  Sparkles,
   UserRoundPen,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 const guestMenu = [
   { title: "ورود", icon: LucideLogIn, href: "/login" },
@@ -37,8 +37,9 @@ const guestMenu = [
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { data: user, isLoading } = useUser();
+  const { isLoading } = useUser();
   const { mutate: logout } = useLogout();
+  const { pathname } = useLocation();
 
   const isAdmin = localStorage.getItem("isAdmin")
     ? JSON.parse(localStorage.getItem("isAdmin")!)
@@ -55,12 +56,12 @@ export function NavUser() {
   return (
     <SidebarMenu>
       {/* نمایش آیتم‌ها */}
-      {!user &&
+      {!localStorage.getItem('username') &&
         guestMenu.map((item) => (
           <Link to={item.href} key={item.title}>
             <Collapsible asChild className="group/collapsible">
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
+                <SidebarMenuButton tooltip={item.title} className={cn("cursor-pointer", item.href === pathname && "text-red-600")}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                 </SidebarMenuButton>
@@ -70,7 +71,7 @@ export function NavUser() {
         ))}
 
       {/* Dropdown منوی کاربر (فقط وقتی وارد شده) */}
-      {user && (
+      {localStorage.getItem('username') && (
         <SidebarMenuItem>
           <DropdownMenu dir="rtl">
             <DropdownMenuTrigger asChild className="cursor-pointer">
@@ -80,11 +81,11 @@ export function NavUser() {
               >
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarFallback className="rounded-lg">
-                    {user.username[0]?.toUpperCase() ?? "?"}
+                    {localStorage.getItem('username')?.[0]}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.username}</span>
+                  <span className="truncate font-medium">{localStorage.getItem('username')}</span>
                 </div>
                 <ChevronsUpDown className="ml-auto size-4 opacity-60" />
               </SidebarMenuButton>
@@ -100,12 +101,12 @@ export function NavUser() {
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarFallback className="rounded-lg">
-                      {user.username[0]?.toUpperCase() ?? "?"}
+                      {localStorage.getItem('username')?.toUpperCase()[0] ?? "?"}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{user.username}</span>
-                    <span className="truncate text-xs">{user.email}</span>
+                    <span className="truncate font-medium">{localStorage.getItem('username')}</span>
+                    <span className="truncate text-xs">{localStorage.getItem('email')}</span>
                   </div>
                 </div>
               </DropdownMenuLabel>

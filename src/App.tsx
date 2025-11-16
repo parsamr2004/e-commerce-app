@@ -45,7 +45,7 @@ const App = () => {
             >
               {products?.map((product) => (
                 <SwiperSlide key={product._id}>
-                  <Link to={`/products/${product._id}`}>
+                  <Link to={localStorage.getItem('id')? `/products/${product._id}`: '/login'}>
                     <div className="relative aspect-[16/9] sm:aspect-[4/3] lg:aspect-[16/9]">
                       <img
                         src={product.image}

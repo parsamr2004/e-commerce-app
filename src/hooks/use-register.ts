@@ -1,28 +1,35 @@
 import { axiosInstance } from "@/lib/utils";
-import type { RegisterPayload, RegisterResponse } from "@/types/register.model";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useAuthStore from "@/stores/use-auth-store";
+import type { AuthResponseModel, RegisterPayloadModel } from "@/types/login.model";
+import { useMutation } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const useRegister = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const { setIsAdmin, setId, setUserName, setEmail } = useAuthStore();
 
   return useMutation({
-    mutationFn: (payload: RegisterPayload) =>
-      axiosInstance
-        .post<RegisterPayload, AxiosResponse<RegisterResponse>>("/users", payload)
-        .then((res) => res.data),
-    onSuccess(data) {
-      toast.success("ثبت نام با موفقیت انجام شد");
-      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
-      navigate("/");
+    mutationFn: async (payload: RegisterPayloadModel) => {
+      const res = await axiosInstance.post<RegisterPayloadModel, AxiosResponse<AuthResponseModel>>(
+        '/users',
+        payload
+      );
 
-      localStorage.setItem("isAdmin", JSON.stringify(data.isAdmin));
+      setIsAdmin(res.data.isAdmin);
+      setId(res.data._id);
+      setUserName(res.data.username);
+      setEmail(res.data.email);
+
+      return res.data;
     },
-    onError() {
-      toast.error("ثبت نام ناموفق");
+    onSuccess: () => {
+      navigate('/');
+      toast.success('خوش آمدید');
+    },
+    onError: () => {
+      toast.error('ثبت نام ناموفق');
     },
   });
 };

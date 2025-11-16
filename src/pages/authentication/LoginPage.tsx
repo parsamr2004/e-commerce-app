@@ -6,12 +6,12 @@ import { Label } from "@/components/ui/label";
 import dark_auth from "../../assets/images/dark-auth.png";
 import light_auth from "../../assets/images/light_auth.png";
 import useLogin from "@/hooks/use-login";
-import type { LoginPayload } from "@/types/login.model";
+import type { LoginPayloadModel } from "@/types/login.model";
 import { Eye, EyeOff, Lock, Mail, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 const LoginPage = () => {
-  const [payload, setPayload] = useState<LoginPayload>({ email: "", password: "" });
+  const [payload, setPayload] = useState<LoginPayloadModel>({ email: "", password: "" });
   const [showPass, setShowPass] = useState(false);
   const { mutate, isPending } = useLogin();
 

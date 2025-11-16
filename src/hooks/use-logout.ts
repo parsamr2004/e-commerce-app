@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/lib/utils";
+import useAuthStore from "@/stores/use-auth-store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -6,6 +7,7 @@ import { toast } from "sonner";
 const useLogout = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const reset = useAuthStore((state) => state.reset);
 
   return useMutation({
     mutationFn: () => axiosInstance.post("/users/logout", {}, { withCredentials: true }),
@@ -14,8 +16,7 @@ const useLogout = () => {
 
       queryClient.invalidateQueries({ queryKey: ["user"] });
 
-      localStorage.removeItem("id");
-      localStorage.removeItem("isAdmin");
+      reset();
 
       navigate("/");
     },

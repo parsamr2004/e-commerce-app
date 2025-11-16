@@ -1,9 +1,3 @@
-export type OrderItem = {
-  _id: string;
-  name: string;
-  qty: number;
-};
-
 export interface OrderItemLine {
   name: string;
   qty: number;
@@ -12,6 +6,12 @@ export interface OrderItemLine {
   product: string;
   _id: string;
 }
+
+export type OrderItem = {
+  _id: string;
+  name: string;
+  qty: number;
+};
 
 export type ShippingAddress = {
   address: string;
@@ -38,6 +38,15 @@ export type OrderResponseModel = {
   shippingAddress: ShippingAddress;
 };
 
+export interface IOrderItem {
+  name: string;
+  qty: number;
+  price: number;
+  image: string;
+  product: string;
+  _id: string;
+}
+
 export type OrderRowModel = {
   _id: string;
   name: string;
@@ -53,7 +62,43 @@ export type OrderRowModel = {
 export type UserOrder = {
   _id: string;
   user: string;
-  orderItems: OrderItemLine[];
+  orderItems: IOrderItem[];
+  shippingAddress: ShippingAddress;
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  isDelivered: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminOrder = {
+  _id: string;
+  user: {
+    _id: string;
+    username: string;
+  };
+  orderItems: IOrderItem[];
+  shippingAddress: ShippingAddress;
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  isDelivered: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+export type UserOrderPopulated = {
+  _id: string | null;
+  user: {
+    _id: string;
+    username: string;
+    email?: string;
+  };
+  orderItems: IOrderItem[];
   shippingAddress: ShippingAddress;
   itemsPrice: number;
   taxPrice: number;

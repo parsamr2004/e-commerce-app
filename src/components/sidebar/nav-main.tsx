@@ -7,9 +7,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { Badge } from "../ui/badge";
 import useCartStore from "@/stores/use-cart-store";
+import { cn } from "@/lib/utils";
 
 export function NavMain({
   items,
@@ -26,6 +27,8 @@ export function NavMain({
   }[];
 }) {
   const { cartItems } = useCartStore();
+  const { pathname } = useLocation();
+
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -38,7 +41,7 @@ export function NavMain({
           >
             <Link to={item.url}>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
+                <SidebarMenuButton tooltip={item.title} className={cn("cursor-pointer", item.url === pathname && "text-red-600")}>
                   {item.icon && <item.icon />}
                   {item.title === "سبد خرید" && cartItems.length > 0 && (
                     <Badge className="absolute -top-0/5 -right-[1px] flex h-[14px] w-[14px] items-center justify-center rounded-full p-[1/5px]">

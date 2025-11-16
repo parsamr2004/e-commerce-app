@@ -17,7 +17,7 @@ const ProductCard = ({ product, toggleFavorite, isFavorite }: ProductCardProps) 
   const navigate = useNavigate();
   const { data: user, isLoading } = useUser();
 
-  const handleCardClick = () => navigate(`/products/${product._id}`);
+  const handleCardClick = () => localStorage.getItem('id')? navigate(`/products/${product._id}`): navigate("/login");
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();

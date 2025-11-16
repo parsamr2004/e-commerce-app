@@ -13,6 +13,7 @@ export function ModeToggle() {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
+            className="cursor-pointer"
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
