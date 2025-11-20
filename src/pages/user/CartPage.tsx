@@ -9,11 +9,11 @@ const CartPage = () => {
 
   const itemCount = cartItems.length;
   const qtyCount = cartItems.reduce(
-    (acc, cur) => acc + (cur.countInBasket || 0),
+    (acc, cur) => acc + (cur.countInStock || 0),
     0
   );
   const finalAmount = cartItems.reduce(
-    (acc, cur) => acc + (cur.countInBasket || 0) * (cur.price || 0),
+    (acc, cur) => acc + (cur.countInStock || 0) * (cur.price || 0),
     0
   );
 
