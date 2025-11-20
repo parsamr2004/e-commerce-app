@@ -2,14 +2,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import type { Product } from "@/types/product.model";
+import type { ProductModel } from "@/types/product.model";
 import { LucideHeart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useUser from "@/hooks/use-user";
 
 interface ProductCardProps {
-  product: Product;
-  toggleFavorite: (product: Product) => void;
+  product: ProductModel;
+  toggleFavorite: (product: ProductModel) => void;
   isFavorite: boolean;
 }
 

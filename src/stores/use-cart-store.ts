@@ -1,9 +1,9 @@
-import type { Product } from "@/types/product.model";
+import type { ProductModel } from "@/types/product.model";
 import { create } from "zustand";
 
 interface IuseCartStore {
-  cartItems: Product[];
-  addToCart: (product: Product) => void;
+  cartItems: ProductModel[];
+  addToCart: (product: ProductModel) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   deleteItems: () => void;
