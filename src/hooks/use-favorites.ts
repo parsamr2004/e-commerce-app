@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import type { Product } from "@/types/product.model";
+import type { ProductModel } from "@/types/product.model";
 
 const FAVORITES_STORAGE_KEY = "my_app_favorites";
 
 export default function useFavorites() {
-  const [favorites, setFavorites] = useState<Product[]>([]);
+  const [favorites, setFavorites] = useState<ProductModel[]>([]);
 
   useEffect(() => {
     const saved = localStorage.getItem(FAVORITES_STORAGE_KEY);
@@ -13,7 +13,7 @@ export default function useFavorites() {
     }
   }, []);
 
-  const toggleFavorite = (product: Product) => {
+  const toggleFavorite = (product: ProductModel) => {
     setFavorites((prev) => {
       const isFav = prev.some((p) => p._id === product._id);
       let updated;

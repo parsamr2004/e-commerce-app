@@ -1,12 +1,10 @@
 import { axiosInstance } from "@/lib/utils";
 import type { UserOrderPopulated } from "@/types/order.types";
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
-const useGetOrderById = (id: string | null) => {
-  return useQuery({
-    queryKey: ['order', id],
-    queryFn: () => axiosInstance.get<UserOrderPopulated>(`/orders/${id}`).then((res) => res.data),
-    enabled: !!id,
+const useGetOrderById = () => {
+  return useMutation({
+    mutationFn: (id: string) => axiosInstance.get<UserOrderPopulated>(`/orders/${id}`).then((res) => res.data),
   });
 };
 export default useGetOrderById;

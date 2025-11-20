@@ -12,7 +12,13 @@ import {
 
 const DetailsPage = () => {
   const { orderId } = useParams<{ orderId: string }>();
-  const { data: orderDetail, isLoading, error } = useGetOrderDetail(orderId);
+  
+  const { data: orderDetail, isLoading, error } = useGetOrderDetail(orderId || "");
+
+  if (!orderId) {
+    return <p className="text-center">شناسه سفارش نامعتبر است.</p>
+  }
+
   console.log(orderId);
   if (isLoading) {
     return <p className="text-center">در حال بارگذاری...</p>;
@@ -73,11 +79,11 @@ const DetailsPage = () => {
         <div className="">
           <div className="flex gap-2 pb-2">
             <p className="text-primary">نام:</p>
-            <p>{orderDetail.user?.username}</p>
+            <p>{localStorage.getItem("username")}</p>
           </div>
           <div className="flex gap-2 pb-2">
             <p className="text-primary">ایمیل:</p>
-            <p>{orderDetail.user?.email}</p>
+            <p>{localStorage.getItem("email")}</p>
           </div>
         </div>
 

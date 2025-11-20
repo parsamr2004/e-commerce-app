@@ -178,7 +178,7 @@ const ShopPage = () => {
                 <ShopCard
                   key={product._id}
                   product={product}
-                  categoryName={category_map[product.category]}
+                  categoryName={category_map[product.category.name]}
                   toggleFavorite={toggleFavorite}
                   isFavorite={isFavorite(product._id)}
                 />

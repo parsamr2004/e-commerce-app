@@ -1,4 +1,9 @@
-import type { LoginResponse } from "./login.model";
+export type LoginResponse = {
+  _id: string;
+  username: string;
+  email: string;
+  isAdmin: boolean;
+};
 
 export type RegisterPayload = {
   username: string;

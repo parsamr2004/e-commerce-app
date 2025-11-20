@@ -265,7 +265,7 @@ export const ProductPage = () => {
               ) : (
                 <div className="space-y-3">
                   {product.reviews?.map((rev) => (
-                    <div key={rev._id} className="rounded-lg border p-4 max-[370px]:p-3">
+                    <div key={rev.id} className="rounded-lg border p-4 max-[370px]:p-3">
                       <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <span className="rtl:text-right">
                           {new Date(rev.createdAt).toLocaleDateString("fa-IR")}

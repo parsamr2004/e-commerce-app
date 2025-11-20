@@ -1,9 +1,9 @@
 import { axiosInstance } from "@/lib/utils";
-import type { Product } from "@/types/product.model";
+import type { ProductModel } from "@/types/product.model";
 import { useQuery } from "@tanstack/react-query";
 
 const useGetSingleProduct = (id?: string) => {
-  return useQuery<Product>({
+  return useQuery<ProductModel>({
     queryKey: ["product", id],
     queryFn: () => axiosInstance.get(`/products/${id}`).then((res) => res.data),
     enabled: !!id, 

@@ -56,7 +56,6 @@ const Stepper = ({ currentStep }: StepperProps) => {
                 </p>
               </div>
 
-              {/* خط بین مراحل */}
               {index < steps.length - 1 && (
                 <div
                   className={`mx-2 sm:mx-3 md:mx-4 h-[2px] rounded-full transition-all duration-300

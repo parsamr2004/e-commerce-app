@@ -18,6 +18,9 @@ import ShoppingProgressListPage from "./pages/user/ShoppingProgressListPage";
 import ErrorPage from "./pages/ErrorPage";
 import CheckoutPage from "./pages/user/CheckoutPage";
 import DetailsPage from "./pages/user/DetailsPage";
+import UsersPage from "./pages/admin/UsersPage";
+import AllProducts from "./pages/admin/AllProduct";
+import EditProduct from "./components/EditProduct";
 
 const router = createBrowserRouter([
   {
@@ -94,6 +97,22 @@ const router = createBrowserRouter([
         path: "Dashboard",
         Component: Dashboard,
       },
+      {
+        path: "create-product",
+        Component: CreateProductPage,
+      },
+      {
+        path: "users", 
+        Component: UsersPage
+      }, 
+      {
+        path: "all-products", 
+        Component: AllProducts
+      }, 
+      {
+        path: "all-products/:id", 
+        Component: EditProduct
+      }
     ],
   },
 ]);

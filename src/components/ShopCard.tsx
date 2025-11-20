@@ -1,4 +1,4 @@
-import type { Product } from "@/types/product.model";
+import type { ProductModel } from "@/types/product.model";
 import { LucideArrowLeft, LucideHeart, ShoppingBasket } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "./ui/card";
@@ -7,9 +7,9 @@ import { Link } from "react-router";
 import useCartStore from "@/stores/use-cart-store";
 
 interface ProductCardProp {
-  product: Product;
+  product: ProductModel;
   categoryName: string;
-  toggleFavorite: (product: Product) => void;
+  toggleFavorite: (product: ProductModel) => void;
   isFavorite: boolean;
 }
 
@@ -23,20 +23,8 @@ const ShopCard = (props: ProductCardProp) => {
   const { addToCart, updateQuantity } = useCartStore();
 
   return (
-    <Card
-      className="
-        group
-        relative
-        flex w-full flex-col overflow-hidden rounded-2xl border
-        transition
-        hover:shadow-sm
-        sm:max-w-[360px]
-        md:max-w-[380px]
-      "
-    >
-      {/* Top: تصویر + برچسب دسته + دکمه علاقه‌مندی */}
+    <Card className="group relative flex w-full flex-col overflow-hidden rounded-2xl border transition hover:shadow-sm sm:max-w-[360px] md:max-w-[380px]">
       <CardContent className="relative p-0">
-        {/* نسبت تصویر واکنشی: موبایل 1:1، از sm به بالا 4:3، از lg به بالا 5:4 */}
         <div className="relative aspect-square sm:aspect-[4/3] lg:aspect-[5/4]">
           <img
             src={productImg}
@@ -45,50 +33,35 @@ const ShopCard = (props: ProductCardProp) => {
             className="absolute inset-0 h-full w-full object-cover"
           />
 
-          {/* دکمه علاقه‌مندی */}
           <Button
             size="icon"
             variant="secondary"
             aria-label="افزودن به علاقه‌مندی"
             onClick={() => toggleFavorite(product)}
-            className={`
-              absolute right-2 top-2 z-10 rounded-full border bg-background/80 backdrop-blur
-              transition
-              ${isFavorite ? "[&_.lucide-heart]:fill-current" : ""}
-              [&_.lucide-heart]:h-5 [&_.lucide-heart]:w-5
-            `}
+            className={`bg-background/80 absolute top-2 right-2 z-10 rounded-full border backdrop-blur transition ${isFavorite ? "[&_.lucide-heart]:fill-current" : ""} [&_.lucide-heart]:h-5 [&_.lucide-heart]:w-5`}
           >
             <LucideHeart className={isFavorite ? "" : "text-muted-foreground"} />
           </Button>
 
-          {/* برچسب دسته‌بندی - بدون رنگ هاردکد */}
           {productCategory ? (
-            <Label
-              className="
-                absolute bottom-3 right-3 z-10 rounded-2xl bg-primary px-2.5 py-0.5
-                text-xs font-medium text-primary-foreground shadow
-              "
-            >
+            <Label className="bg-primary text-primary-foreground absolute right-3 bottom-3 z-10 rounded-2xl px-2.5 py-0.5 text-xs font-medium shadow">
               {productCategory}
             </Label>
           ) : null}
         </div>
       </CardContent>
 
-      {/* Main info: عنوان، قیمت، توضیح */}
       <CardContent className="flex flex-1 flex-col justify-between px-4 py-4 sm:px-5">
         <div>
-          {/* عنوان + قیمت */}
           <div className="flex items-start justify-between gap-3">
-            <h3 className="line-clamp-2 text-sm font-medium leading-tight sm:text-base">
+            <h3 className="line-clamp-2 text-sm leading-tight font-medium sm:text-base">
               {productTitle}
             </h3>
-            <div className="whitespace-nowrap text-xs sm:text-sm">
+            <div className="text-xs whitespace-nowrap sm:text-sm">
               <span className="font-semibold">{productPrice}</span> <span>تومان</span>
             </div>
           </div>
 
-          {/* توضیح (۲ خط) */}
           {productDescription ? (
             <CardDescription className="text-muted-foreground mt-2 line-clamp-2 text-justify text-xs sm:text-sm">
               {productDescription}
@@ -96,7 +69,6 @@ const ShopCard = (props: ProductCardProp) => {
           ) : null}
         </div>
 
-        {/* Footer: دکمه مشاهده + افزودن به سبد */}
         <CardFooter className="mt-4 flex items-center justify-between gap-3 px-0">
           <Button asChild className="cursor-pointer">
             <Link to={`/products/${product._id}`} className="inline-flex items-center">

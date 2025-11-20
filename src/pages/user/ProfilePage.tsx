@@ -10,7 +10,7 @@ const ProfilePage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { mutate: updateProfile, isLoading } = useUpdateProfile() as any;
+  const { mutate: updateProfile, isPending } = useUpdateProfile();
   const { data: profile } = useProfile();
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const ProfilePage = () => {
         setPassword("");
         setConfirmPassword("");
       },
-      onError: (error: any) => {
+      onError: (error) => {
         toast.error("خطا در بروزرسانی پروفایل: " + (error.message || "مشکل نامشخص"));
       },
     });
@@ -134,10 +134,10 @@ const ProfilePage = () => {
           </button>
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
             className="w-full rounded-xl bg-primary px-6 py-2 text-sm text-primary-foreground transition-colors disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
           >
-            {isLoading ? "در حال بروزرسانی..." : "بروزرسانی"}
+            {isPending ? "در حال بروزرسانی..." : "بروزرسانی"}
           </button>
         </div>
       </form>

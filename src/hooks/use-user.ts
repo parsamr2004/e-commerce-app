@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/lib/utils";
-import type { User } from "@/types/user.model";
+import type { User } from "@/types/user.admin";
 import { useQuery } from "@tanstack/react-query";
 
 const useUser = () => {

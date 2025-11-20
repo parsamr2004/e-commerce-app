@@ -7,15 +7,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useCartStore from "@/stores/use-cart-store";
-import type { Product } from "@/types/product.model";
+import type { ProductModel } from "@/types/product.model";
 import { LucideTrash2 } from "lucide-react";
 
 interface ProductCardItemprops {
-  cartItem: Product;
+  cartItem: ProductModel;
 }
 
 const ProductCardItem = ({ cartItem }: ProductCardItemprops) => {
-  const { name, image, price, _id, countInBasket, quantity } = cartItem;
+  const { name, image, price, _id, countInStock, quantity } = cartItem;
   const { updateQuantity, removeFromCart } = useCartStore();
 
   const qty = Number(quantity) || 0;
@@ -56,7 +56,7 @@ const ProductCardItem = ({ cartItem }: ProductCardItemprops) => {
         </Button>
 
         <Select
-          defaultValue={String(countInBasket)}
+          defaultValue={String(countInStock)}
           onValueChange={(value) => updateQuantity(_id, +value)}
         >
           <SelectTrigger

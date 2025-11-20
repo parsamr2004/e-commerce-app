@@ -20,12 +20,15 @@ import { cn } from "@/lib/utils";
 import { Collapsible } from "@radix-ui/react-collapsible";
 import {
   BookKey,
+  Boxes,
   ChevronsUpDown,
   List,
   LogOut,
   LucideLoader2,
   LucideLogIn,
   LucideUserPlus,
+  PackagePlus,
+  ShieldCheck,
   UserRoundPen,
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
@@ -133,6 +136,27 @@ export function NavUser() {
                       <Link to="/orders" className="flex items-center gap-2">
                         <List />
                         لیست سفارشات
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Link to="/users" className="flex items-center gap-2">
+                        <ShieldCheck />
+                        مدیریت کاربران
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Link to="/all-products" className="flex items-center gap-2">
+                        <Boxes />
+                        مدیریت محصولات
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Link to="/create-product" className="flex items-center gap-2">
+                        <PackagePlus />
+                        محصول جدید
                       </Link>
                     </DropdownMenuItem>
                   </>
